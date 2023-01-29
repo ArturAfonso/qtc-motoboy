@@ -35,7 +35,7 @@ class HomeController extends GetxController {
     homedistanciaCorridaKm.text = cOnboarding.custos.distanciaCorridaKm.toString();
     //
 
-    homecustosDaCorridaController.text = calcularCustoELucro(info: 'custoCorridaParcial').toStringAsFixed(2);
+    homecustosDaCorridaController.text = calcularCustoELucro(info: 'custoTotal').toStringAsFixed(2);
     homelucroDacorridaController.text = calcularCustoELucro(info: 'lucroFinal').toStringAsFixed(2);
   }
 

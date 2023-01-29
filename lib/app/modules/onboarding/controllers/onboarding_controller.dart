@@ -46,40 +46,21 @@ class OnboardingController extends GetxController {
 
   validarVeiculo() {
     if (page1.currentState!.validate() && page2.currentState!.validate()) {
-      print("===========pagina 1 ================");
-      print("kmPorLitro.text ${kmPorLitro.text}");
       veiculo.kmPorLitro = Utility().convertToDouble(kmPorLitro.text);
-      print(veiculo.kmPorLitro);
-
-      print("valorMedioRevisao.text ${valorMedioRevisao.text}");
       veiculo.valorMedioRevisao = Utility().convertToDouble(valorMedioRevisao.text);
-      print(veiculo.valorMedioRevisao);
-
-      print("kmRevisaoMedia.text ${kmRevisaoMedia.text}");
       veiculo.kmMedioRevisao = Utility().convertToDouble(kmRevisaoMedia.text);
-
-      print("valorTrocaDeOleo.text ${valorTrocaDeOleo.text}");
       veiculo.valorTrocaDeOleo = Utility().convertToDouble(valorTrocaDeOleo.text);
-
-      print("kmTrocaDeOleo.text ${kmTrocaDeOleo.text}");
       veiculo.kmMedioTrocaDeOleo = Utility().convertToDouble(kmTrocaDeOleo.text);
 
       print("===========pagina 2 ================");
 
-      print("valorAtualGasolina.text ${valorAtualGasolina.text}");
       custos.precoGasolina = Utility().convertToDouble(valorAtualGasolina.text);
-
-      print("distanciaCorridaKm.text ${distanciaCorridaKm.text}");
       custos.distanciaCorridaKm = Utility().convertToDouble(distanciaCorridaKm.text);
-
-      print("valorInformadoMotoboy.text ${valorInformadoMotoboy.text}");
       custos.valorInformadoMotoboy = Utility().convertToDouble(valorInformadoMotoboy.text);
 
       print('===== veiculo salvo=====');
       storage.write("veiculo", veiculo);
       storage.write("custos", custos);
-      /* var teste = storage.read('veiculo');
-      print(teste); */
     }
     // storage.erase();
   }

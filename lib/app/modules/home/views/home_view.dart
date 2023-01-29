@@ -335,7 +335,7 @@ class _HomeViewState extends State<HomeView> {
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 5.0),
                   child: Text(
-                    "Custos da corrida",
+                    "Custo total da corrida",
                     textAlign: TextAlign.left,
                     style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                   ),
