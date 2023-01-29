@@ -27,6 +27,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    controller.preencheCamposHome();
     return Scaffold(
         endDrawer: Drawer(
           width: Get.size.width,

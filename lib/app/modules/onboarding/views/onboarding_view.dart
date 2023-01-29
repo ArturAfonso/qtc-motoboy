@@ -299,7 +299,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     child: CustomTextButton(
                         buttonFunction: () {
                           controller.validarVeiculo();
-                          Get.offAllNamed(Routes.HOME);
+                          if (controller.page1.currentState!.validate() && controller.page2.currentState!.validate()) {
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Get.offAllNamed(Routes.HOME);
+                            });
+                          }
                         },
                         controller: controller,
                         title: "Concluir"),
@@ -312,7 +316,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
         /* controller.page1.currentState!.validate();
         controller.page2.currentState!.validate(); */
         controller.validarVeiculo();
-        Get.offAllNamed(Routes.HOME);
+        if (controller.page1.currentState!.validate() && controller.page2.currentState!.validate()) {
+          Future.delayed(const Duration(seconds: 2), () {
+            Get.offAllNamed(Routes.HOME);
+          });
+        }
       },
       //onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
