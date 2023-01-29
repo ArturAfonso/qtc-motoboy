@@ -6,10 +6,25 @@ environment:
   sdk: '>=2.18.4 <3.0.0'
 
 dependencies: 
+  #https://pub.dev/packages/all_validations_br
+  all_validations_br: ^3.0.0
   cupertino_icons: ^1.0.2
-  get: 4.6.5
+  currency_text_input_formatter: ^2.1.7
+  flutter_secure_storage: ^7.0.1
   flutter: 
     sdk: flutter
+
+  get: 4.6.5
+  get_storage: ^2.0.3
+  #https://pub.dev/packages/google_fonts/install
+  google_fonts: ^3.0.1 
+
+  intl: ^0.17.0
+  #https://pub.dev/packages/introduction_screen
+  introduction_screen: ^3.1.4
+
+  #https://pub.dev/packages/validatorless
+  validatorless: ^1.2.3
 
 dev_dependencies: 
   flutter_lints: 2.0.1
@@ -18,4 +33,7 @@ dev_dependencies:
 
 flutter: 
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/bitmap.png
 
