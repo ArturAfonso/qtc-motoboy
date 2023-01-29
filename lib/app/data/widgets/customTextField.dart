@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:motplan/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
 
 class CustomTextField extends StatefulWidget {
   final Widget? icon;
@@ -113,11 +113,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: MOTsettings().errorColor, width: 2),
+              borderSide: BorderSide(color: QTCsettings().errorColor, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: MOTsettings().errorColor, width: 2),
+              borderSide: BorderSide(color: QTCsettings().errorColor, width: 2),
             ),
             errorStyle: const TextStyle(
               fontSize: 12,

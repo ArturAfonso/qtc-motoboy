@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:motplan/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
 
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
@@ -28,16 +28,16 @@ class CustomTextButton extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   // If the button is pressed, return green, otherwise blue
                   if (states.contains(MaterialState.pressed)) {
-                    return MOTsettings().textColorPrimaryLight;
+                    return QTCsettings().textColorPrimaryLight;
                   }
-                  return MOTsettings().colorPrimaryLight;
+                  return QTCsettings().colorPrimaryLight;
                 }),
                 side: MaterialStateProperty.resolveWith((states) {
                   // If the button is pressed, return green, otherwise blue
                   if (states.contains(MaterialState.pressed)) {
-                    return BorderSide(color: MOTsettings().textColorPrimaryLight, width: 2);
+                    return BorderSide(color: QTCsettings().textColorPrimaryLight, width: 2);
                   }
-                  return BorderSide(color: MOTsettings().colorPrimaryLight, width: 2);
+                  return BorderSide(color: QTCsettings().colorPrimaryLight, width: 2);
                 }),
                 shape: MaterialStateProperty.resolveWith((states) {
                   if (states.contains(MaterialState.pressed)) {
@@ -50,7 +50,7 @@ class CustomTextButton extends StatelessWidget {
               child: Text(title,
                   maxLines: 1,
                   style:
-                      TextStyle(color: MOTsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
+                      TextStyle(color: QTCsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
         ));
   }
 }

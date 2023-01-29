@@ -1,9 +1,9 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motplan/app/data/utility.dart';
-import 'package:motplan/app/modules/onboarding/controllers/onboarding_controller.dart';
-import 'package:motplan/app/routes/app_pages.dart';
+import 'package:qtc_motoboy/app/data/utility.dart';
+import 'package:qtc_motoboy/app/modules/onboarding/controllers/onboarding_controller.dart';
+import 'package:qtc_motoboy/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   OnboardingController cOnboarding = Get.find();

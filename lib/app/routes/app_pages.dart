@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:motplan/app/modules/home/views/edit_info_veic_view.dart';
+import 'package:qtc_motoboy/app/modules/home/views/edit_info_veic_view.dart';
 
-import 'package:motplan/app/modules/onboarding/bindings/onboarding_binding.dart';
-import 'package:motplan/app/modules/onboarding/views/onboarding_view.dart';
+import 'package:qtc_motoboy/app/modules/onboarding/bindings/onboarding_binding.dart';
+import 'package:qtc_motoboy/app/modules/onboarding/views/onboarding_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:motplan/app/data/widgets/customTextButton.dart';
-import 'package:motplan/app/data/widgets/customTextField.dart';
-import 'package:motplan/app/routes/app_pages.dart';
-import 'package:motplan/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
+import 'package:qtc_motoboy/app/routes/app_pages.dart';
+import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../controllers/onboarding_controller.dart';
@@ -346,16 +346,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
       //rtl: true, // Display as right-to-left
       back: Icon(
         Icons.keyboard_double_arrow_left,
-        color: MOTsettings().colorPrimaryLight,
+        color: QTCsettings().colorPrimaryLight,
       ),
       skip: const Text('Ignorar', style: TextStyle(fontWeight: FontWeight.w600)),
       next: Icon(
         Icons.keyboard_double_arrow_right,
-        color: MOTsettings().colorPrimaryLight,
+        color: QTCsettings().colorPrimaryLight,
       ),
       done: Icon(
         Icons.keyboard_double_arrow_right,
-        color: MOTsettings().colorPrimaryLight,
+        color: QTCsettings().colorPrimaryLight,
       ),
       showDoneButton: true,
       curve: Curves.fastLinearToSlowEaseIn,
@@ -363,9 +363,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       controlsPadding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: DotsDecorator(
           size: const Size(30.0, 20.0),
-          color: MOTsettings().textColorPrimaryDark,
+          color: QTCsettings().textColorPrimaryDark,
           activeSize: const Size(30.0, 20.0),
-          activeColor: MOTsettings().colorPrimaryLight,
+          activeColor: QTCsettings().colorPrimaryLight,
           shape: const CircleBorder(side: BorderSide(color: Colors.black))
           /*  activeShape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),

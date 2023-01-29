@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:motplan/app/settings/settings_model.dart';
+import 'package:qtc_motoboy/app/settings/settings_model.dart';
 
 class AppSettings extends InheritedWidget {
   AppSettings({

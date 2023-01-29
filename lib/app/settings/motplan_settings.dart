@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:motplan/app/settings/settings_model.dart';
+import 'package:qtc_motoboy/app/settings/settings_model.dart';
 
-class MOTsettings implements SettingsModel {
+class QTCsettings implements SettingsModel {
   //parameters
   @override
   String nameApp = "QTC MOTOBOY";

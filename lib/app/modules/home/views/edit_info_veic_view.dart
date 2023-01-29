@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:motplan/app/data/widgets/customTextButton.dart';
-import 'package:motplan/app/data/widgets/customTextField.dart';
-import 'package:motplan/app/modules/home/controllers/home_controller.dart';
-import 'package:motplan/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
+import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
+import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 class EditInfoVeicView extends StatefulWidget {
@@ -29,7 +29,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
           backgroundColor: Colors.white,
           title: Text(
             'Editar Informações',
-            style: TextStyle(color: MOTsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
+            style: TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
           ),
           centerTitle: true,
           elevation: 0,

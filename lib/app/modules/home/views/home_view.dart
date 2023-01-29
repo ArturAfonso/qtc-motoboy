@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:motplan/app/data/widgets/customTextField.dart';
-import 'package:motplan/app/routes/app_pages.dart';
-import 'package:motplan/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
+import 'package:qtc_motoboy/app/routes/app_pages.dart';
+import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../controllers/home_controller.dart';
@@ -42,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
                     title: Text(
                       "Menu caixa",
                       style: TextStyle(
-                          fontSize: 26, fontWeight: FontWeight.w700, color: MOTsettings().textColorPrimaryLight),
+                          fontSize: 26, fontWeight: FontWeight.w700, color: QTCsettings().textColorPrimaryLight),
                     ),
                     centerTitle: true,
                     //backgroundColor: MOTsettings().colorPrimaryLight,
@@ -60,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
                               child: Icon(
                                 Icons.close,
                                 size: 30,
-                                color: MOTsettings().colorPrimaryLight,
+                                color: QTCsettings().colorPrimaryLight,
                               ),
                             )),
                       )
@@ -95,7 +95,7 @@ class _HomeViewState extends State<HomeView> {
                                   "Ver todas as suas corridas",
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: MOTsettings().textColorPrimaryLight,
+                                      color: QTCsettings().textColorPrimaryLight,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16),
                                 ),
@@ -124,7 +124,7 @@ class _HomeViewState extends State<HomeView> {
                                   "Alterar informações sobre seu veículo",
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: MOTsettings().textColorPrimaryLight,
+                                      color: QTCsettings().textColorPrimaryLight,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16),
                                 ),
@@ -155,7 +155,7 @@ class _HomeViewState extends State<HomeView> {
                                   Text(
                                     "Sobre",
                                     style: TextStyle(
-                                        color: MOTsettings().textColorPrimaryLight,
+                                        color: QTCsettings().textColorPrimaryLight,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16),
                                   ),
@@ -164,7 +164,7 @@ class _HomeViewState extends State<HomeView> {
                               Text(
                                 "QTC motoboy 1.0.0+1",
                                 style: TextStyle(
-                                    color: MOTsettings().textColorPrimaryLight,
+                                    color: QTCsettings().textColorPrimaryLight,
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16),
                               ),
@@ -172,19 +172,19 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   Text("Desenvolvido por ",
                                       style: TextStyle(
-                                          color: MOTsettings().textColorPrimaryLight,
+                                          color: QTCsettings().textColorPrimaryLight,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16)),
                                   Text("W3Start",
                                       style: TextStyle(
-                                          color: MOTsettings().textColorPrimaryLight,
+                                          color: QTCsettings().textColorPrimaryLight,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16)),
                                 ],
                               ),
                               Text("sac@w3start.com.br",
                                   style: TextStyle(
-                                      color: MOTsettings().textColorPrimaryLight,
+                                      color: QTCsettings().textColorPrimaryLight,
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16)),
                             ],
@@ -194,7 +194,7 @@ class _HomeViewState extends State<HomeView> {
                           padding: const EdgeInsets.only(top: 15.0),
                           child: Container(
                             width: Get.size.width,
-                            color: MOTsettings().colorPrimaryLight,
+                            color: QTCsettings().colorPrimaryLight,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: Column(
@@ -231,7 +231,7 @@ class _HomeViewState extends State<HomeView> {
                 child: IconButton(
                   icon: Icon(
                     Icons.menu,
-                    color: MOTsettings().colorPrimaryLight,
+                    color: QTCsettings().colorPrimaryLight,
                   ),
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
@@ -244,7 +244,7 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: Colors.white,
           title: Text(
             'QTC Motoboy',
-            style: TextStyle(color: MOTsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
+            style: TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
           ),
           centerTitle: true,
           elevation: 0,
@@ -259,7 +259,7 @@ class _HomeViewState extends State<HomeView> {
                   'Preencha as informações da viagem e custo e lucro serão calculados',
                   textAlign: TextAlign.center,
                   style:
-                      TextStyle(color: MOTsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 18),
+                      TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 18),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 55, bottom: 10.0),
@@ -364,7 +364,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 CustomTextField(
                   textColor: controller.homelucroDacorridaController.text.contains("-")
-                      ? MOTsettings().errorColor
+                      ? QTCsettings().errorColor
                       : Colors.green,
                   filled: controller.homelucroDacorridaController.text.isEmpty ? true : false,
                   fillcolor: Colors.grey.shade300,

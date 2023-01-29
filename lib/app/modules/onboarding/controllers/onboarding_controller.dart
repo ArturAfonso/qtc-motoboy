@@ -2,10 +2,10 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:motplan/app/data/models/custos.dart';
-import 'package:motplan/app/data/models/veiculo.dart';
-import 'package:motplan/app/data/utility.dart';
-import 'package:motplan/app/routes/app_pages.dart';
+import 'package:qtc_motoboy/app/data/models/custos.dart';
+import 'package:qtc_motoboy/app/data/models/veiculo.dart';
+import 'package:qtc_motoboy/app/data/utility.dart';
+import 'package:qtc_motoboy/app/routes/app_pages.dart';
 
 class OnboardingController extends GetxController {
   //FlutterSecureStorage storage = const FlutterSecureStorage();
