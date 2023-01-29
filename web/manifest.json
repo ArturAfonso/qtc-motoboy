@@ -1,6 +1,6 @@
 {
-    "name": "motplan",
-    "short_name": "motplan",
+    "name": "QTCMotoboy",
+    "short_name": "QTCMotoboy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

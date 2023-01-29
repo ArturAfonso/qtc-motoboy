@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 
 final ThemeData appTheme = ThemeData(
     primaryColor: QTCsettings().colorPrimaryLight,

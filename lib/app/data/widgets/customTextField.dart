@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 
 class CustomTextField extends StatefulWidget {
   final Widget? icon;

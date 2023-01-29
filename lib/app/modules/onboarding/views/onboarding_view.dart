@@ -6,7 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../controllers/onboarding_controller.dart';

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 class EditInfoVeicView extends StatefulWidget {

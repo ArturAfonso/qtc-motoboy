@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qtc_motoboy/app/app_settings.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
 import 'package:qtc_motoboy/app/modules/onboarding/controllers/onboarding_controller.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:qtc_motoboy/app/theme/theme_app.dart';
 
 import 'app/routes/app_pages.dart';

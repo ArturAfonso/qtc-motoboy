@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.br.w3start" "\0"
-            VALUE "FileDescription", "motplan" "\0"
+            VALUE "FileDescription", "QTCMotoboy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "motplan" "\0"
+            VALUE "InternalName", "QTCMotoboy" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.br.w3start. All rights reserved." "\0"
-            VALUE "OriginalFilename", "motplan.exe" "\0"
-            VALUE "ProductName", "motplan" "\0"
+            VALUE "OriginalFilename", "QTCMotoboy.exe" "\0"
+            VALUE "ProductName", "QTCMotoboy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

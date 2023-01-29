@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
-import 'package:qtc_motoboy/app/settings/motplan_settings.dart';
+import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../controllers/home_controller.dart';
