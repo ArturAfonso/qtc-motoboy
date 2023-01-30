@@ -23,6 +23,8 @@ dependencies:
   #https://pub.dev/packages/introduction_screen
   introduction_screen: ^3.1.4
 
+  qr_flutter: ^4.0.0
+
   #https://pub.dev/packages/validatorless
   validatorless: ^1.2.3
 
@@ -36,4 +38,5 @@ flutter:
   assets:
     - assets/
     - assets/bitmap.png
+    - assets/pixInterqtc.png
 

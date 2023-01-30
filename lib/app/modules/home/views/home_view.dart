@@ -18,6 +18,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   HomeController controller = HomeController();
+  RxBool copied = false.obs;
 
   @override
   void initState() {
@@ -198,21 +199,62 @@ class _HomeViewState extends State<HomeView> {
                             color: QTCsettings().colorPrimaryLight,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.payments,
-                                    color: Colors.white,
-                                  ),
-                                  Text("Deseja contribuir com a manutenção deste aplicativo?",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16)),
-                                  Text("chave pix sac@empresa.com.br",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16)),
-                                ],
-                              ),
+                              child: Obx(() => InkWell(
+                                    onTap: () {
+                                      /* showDialog(
+                                                                  context: context,
+                                                                  builder: (_) {
+                                                                    return DonateDialog();
+                                                                  },
+                                                                ); */
+                                      try {
+                                        Clipboard.setData(const ClipboardData(text: "pix@w3start.com.br"));
+                                        copied.value = true;
+                                        Future.delayed(const Duration(seconds: 2), () {
+                                          copied.value = false;
+                                        });
+                                      } on Exception {
+                                        copied.value = false;
+                                      }
+                                    },
+                                    child: copied.value == true
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 33),
+                                            child: Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: const [
+                                                  Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                    "Pix Copiado para area de transferencia",
+                                                    style: TextStyle(color: Colors.white, fontSize: 16),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: const [
+                                              Icon(
+                                                Icons.payments,
+                                                color: Colors.white,
+                                              ),
+                                              Text("Deseja contribuir com a manutenção deste aplicativo?",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16)),
+                                              Text("chave pix: pix@w3start.com.br",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16)),
+                                            ],
+                                          ),
+                                  )),
                             ),
                           ),
                         )
@@ -279,6 +321,13 @@ class _HomeViewState extends State<HomeView> {
                     }
                   },
                   child: CustomTextField(
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 9),
+                      child: Text(
+                        "R\$",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
                     onSubmitted: (p0) {
                       setState(() {
                         controller.listenerHomeGasolina(p0);
