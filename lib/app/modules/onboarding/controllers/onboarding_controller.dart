@@ -30,42 +30,43 @@ class OnboardingController extends GetxController {
 
   //pagina 1
   final page1 = GlobalKey<FormState>();
-  final page2 = GlobalKey<FormState>();
+  // final page2 = GlobalKey<FormState>();
 
   String verifyStorage() {
-    if (storage.read('veiculo') == null || storage.read('custos') == null) {
+    if (storage.read('veiculo') == null /* || storage.read('custos') == null */) {
       return AppPages.INITIAL;
     } else {
       var mapa = storage.read("veiculo");
       veiculo = Veiculo.fromJson(mapa);
-      var custosmapa = storage.read("custos");
-      custos = Custos.fromJson(custosmapa);
+      /*  var custosmapa = storage.read("custos");
+      custos = Custos.fromJson(custosmapa); */
       return Routes.HOME;
     }
   }
 
   validarVeiculo() {
-    if (page1.currentState!.validate() && page2.currentState!.validate()) {
+    if (page1.currentState!.validate() /*  && page2.currentState!.validate() */) {
       veiculo.kmPorLitro = Utility().convertToDouble(kmPorLitro.text);
       veiculo.valorMedioRevisao = Utility().convertToDouble(valorMedioRevisao.text);
       veiculo.kmMedioRevisao = Utility().convertToDouble(kmRevisaoMedia.text);
       veiculo.valorTrocaDeOleo = Utility().convertToDouble(valorTrocaDeOleo.text);
       veiculo.kmMedioTrocaDeOleo = Utility().convertToDouble(kmTrocaDeOleo.text);
 
-      print("===========pagina 2 ================");
+      /*   print("===========pagina 2 ================");
 
       custos.precoGasolina = Utility().convertToDouble(valorAtualGasolina.text);
       custos.distanciaCorridaKm = Utility().convertToDouble(distanciaCorridaKm.text);
-      custos.valorInformadoMotoboy = Utility().convertToDouble(valorInformadoMotoboy.text);
+      custos.valorInformadoMotoboy = Utility().convertToDouble(valorInformadoMotoboy.text); */
 
       print('===== veiculo salvo=====');
       storage.write("veiculo", veiculo);
-      storage.write("custos", custos);
+      //storage.write("custos", custos);
     }
     // storage.erase();
   }
 
   preencheModelVeiculoCustos() {
+    //chamado ao abrir Editar informações
     if (storage.read('veiculo') == null || storage.read('custos') == null) {
     } else {
       var mapa = storage.read("veiculo");
@@ -90,9 +91,9 @@ class OnboardingController extends GetxController {
     valorTrocaDeOleo.text = veiculo.valorTrocaDeOleo.toString();
     kmTrocaDeOleo.text = veiculo.kmMedioTrocaDeOleo.toString();
 
-    //pagina2
+/*     //pagina2
     valorAtualGasolina.text = custos.precoGasolina.toString();
     distanciaCorridaKm.text = custos.distanciaCorridaKm.toString();
-    valorInformadoMotoboy.text = custos.valorInformadoMotoboy.toString();
+    valorInformadoMotoboy.text = custos.valorInformadoMotoboy.toString(); */
   }
 }

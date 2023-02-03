@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
 import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
@@ -19,16 +21,17 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   HomeController controller = HomeController();
   RxBool copied = false.obs;
+  //#0D6EFD
 
   @override
   void initState() {
-    controller.preencheCamposHome();
+    //controller.preencheCamposHome();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    controller.preencheCamposHome();
+    // controller.preencheCamposHome();
     return Scaffold(
         endDrawer: Drawer(
           width: Get.size.width,
@@ -86,7 +89,9 @@ class _HomeViewState extends State<HomeView> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(Routes.CORRIDAS);
+                            },
                             child: Row(
                               children: [
                                 const Icon(Icons.local_shipping_outlined),
@@ -292,145 +297,313 @@ class _HomeViewState extends State<HomeView> {
           centerTitle: true,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Preencha as informações da viagem e custo e lucro serão calculados',
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 18),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 55, bottom: 10.0),
-                  child: Text(
-                    "Valor atual do litro da gasolina?",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+
+//====================================================================================================
+        body: Form(
+          key: controller.homeCorridaGlobalKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Preencha as informações da viagem e custo e lucro serão calculados',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 18),
                   ),
-                ),
-                FocusScope(
-                  onFocusChange: (value) {
-                    if (!value) {
-                      setState(() {
-                        controller.listenerHomeGasolina(controller.homevalorAtualGasolina.text);
-                      });
-                    }
-                  },
-                  child: CustomTextField(
-                    icon: const Padding(
-                      padding: EdgeInsets.only(left: 8.0, top: 9),
-                      child: Text(
-                        "R\$",
-                        style: TextStyle(fontSize: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 10.0),
+                    child: Text(
+                      "Quanto você pretende cobrar pela entrega?",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  FocusScope(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        setState(() {
+                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                              controller.homevalorInformadoMotoboy.text != "" &&
+                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
+                                precoGasolina: controller.homevalorAtualGasolina.text,
+                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                            //controller.listenerHomeValorInformadoMotoby(controller.homevalorInformadoMotoboy.text);
+                          }
+                        });
+                      }
+                    },
+                    child: CustomTextField(
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 13),
+                        child: Text(
+                          "R\$",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      onSubmitted: (p0) {
+                        setState(() {
+                          if (p0.isNotEmpty &&
+                              p0 != "" &&
+                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            // controller.listenerHomeValorInformadoMotoby(p0);
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: p0,
+                                precoGasolina: controller.homevalorAtualGasolina.text,
+                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                          }
+                        });
+                      },
+                      inputFormatters: [
+                        controller.currencyFormatter,
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                      customTextController: controller.homevalorInformadoMotoboy,
+                      inputType: TextInputType.number,
+                      validator: Validatorless.required('campo obrigatório'),
+                    ),
+                  ),
+
+                  //------------------------------------------------------------------------------------------
+                  //
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
+                    child: Text(
+                      "Valor atual do litro da gasolina?",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  FocusScope(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        setState(() {
+                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                              controller.homevalorInformadoMotoboy.text != "" &&
+                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            //controller.listenerHomeGasolina(controller.homevalorAtualGasolina.text);
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
+                                precoGasolina: controller.homevalorAtualGasolina.text,
+                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                          }
+                        });
+                      }
+                    },
+                    child: CustomTextField(
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 13),
+                        child: Text(
+                          "R\$",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      onSubmitted: (p0) {
+                        setState(() {
+                          if (p0.isNotEmpty &&
+                              p0 != "" &&
+                              controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                              controller.homevalorInformadoMotoboy.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
+                                precoGasolina: p0,
+                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                          }
+                        });
+                      },
+                      inputFormatters: [
+                        controller.currencyFormatter,
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                      customTextController: controller.homevalorAtualGasolina,
+                      inputType: TextInputType.number,
+                      validator: Validatorless.required('campo obrigatório'),
+                    ),
+                  ),
+                  //-------------------------------------------------------------------------
+
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 5.0),
+                    child: Text(
+                      "Distância da corrida em KM?",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  FocusScope(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        setState(() {
+                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                              controller.homevalorInformadoMotoboy.text != "" &&
+                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
+                                precoGasolina: controller.homevalorAtualGasolina.text,
+                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                          }
+                        });
+                      }
+                    },
+                    child: CustomTextField(
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 13),
+                        child: Text(
+                          "Km",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      onSubmitted: (p0) {
+                        setState(() {
+                          if (p0.isNotEmpty &&
+                              p0 != "" &&
+                              controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                              controller.homevalorInformadoMotoboy.text != "" &&
+                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "") {
+                            controller.listenerHomeValoresCustos(
+                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
+                                precoGasolina: controller.homevalorAtualGasolina.text,
+                                distanciaCorridaKm: p0);
+                          }
+                        });
+                      },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                      customTextController: controller.homedistanciaCorridaKm,
+                      inputType: TextInputType.number,
+                      validator: Validatorless.required('campo obrigatório'),
+                    ),
+                  ),
+                  //-------------------------------------------------------
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10.0),
+                    child: SizedBox(
+                      width: Get.size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Custos da corrida",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            width: 65,
+                          ),
+                          Text(
+                            "Lucro da corrida",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ],
                       ),
                     ),
-                    onSubmitted: (p0) {
-                      setState(() {
-                        controller.listenerHomeGasolina(p0);
-                      });
-                    },
-                    inputFormatters: [
-                      controller.currencyFormatter,
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    customTextController: controller.homevalorAtualGasolina,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
+                  ),
+                  SizedBox(
+                    width: Get.size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            //width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                                color: QTCsettings().colorPrimaryLight,
+                                borderRadius: const BorderRadius.all(Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                "R\$ ${controller.homecustosDaCorridaController.text}",
+                                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Container(
+                            //width: Get.size.width / 3,
+                            decoration: BoxDecoration(
+                                color: controller.homelucroDacorridaController.text.contains("-")
+                                    ? Colors.red
+                                    : HexColor("#0D6EFD"),
+                                borderRadius: const BorderRadius.all(Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                "R\$ ${controller.homelucroDacorridaController.text}",
+                                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    validator: Validatorless.required('campo obrigatório'),
                   ),
-                ),
-//-------------------------------------------------------------------------
-
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 5.0),
-                  child: Text(
-                    "Distância da corrida em KM?",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: CustomTextButton(
+                        buttonFunction: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          controller.gerarComprovante();
+                        },
+                        controller: controller,
+                        widgetTitle: Text("Concluir",
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: QTCsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
                   ),
-                ),
-                FocusScope(
-                  onFocusChange: (value) {
-                    if (!value) {
-                      setState(() {
-                        controller.listenerHomeDistanciaKm(controller.homedistanciaCorridaKm.text);
-                      });
-                    }
-                  },
-                  child: CustomTextField(
-                    onSubmitted: (p0) {
-                      setState(() {
-                        controller.listenerHomeDistanciaKm(p0);
-                      });
-                    },
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    customTextController: controller.homedistanciaCorridaKm,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                ),
-                //-------------------------------------------------------
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 5.0),
-                  child: Text(
-                    "Custo total da corrida",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
-                ),
-                CustomTextField(
-                  filled: controller.homecustosDaCorridaController.text.isEmpty ? true : false,
-                  fillcolor: Colors.grey.shade300,
-                  readOnly: true,
-                  inputFormatters: [
-                    controller.currencyFormatter,
-                    LengthLimitingTextInputFormatter(10),
-                  ],
-                  customTextController: controller.homecustosDaCorridaController,
-                  inputType: TextInputType.number,
-                  label: const Text(
-                    "R\$",
-                  ),
-                  validator: Validatorless.required('campo obrigatório'),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 5.0),
-                  child: Text(
-                    "Lucro da corrida",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
-                ),
-                CustomTextField(
-                  textColor: controller.homelucroDacorridaController.text.contains("-")
-                      ? QTCsettings().errorColor
-                      : Colors.green,
-                  filled: controller.homelucroDacorridaController.text.isEmpty ? true : false,
-                  fillcolor: Colors.grey.shade300,
-                  readOnly: true,
-                  inputFormatters: [
-                    controller.currencyFormatter,
-                    LengthLimitingTextInputFormatter(10),
-                  ],
-                  customTextController: controller.homelucroDacorridaController,
-                  inputType: TextInputType.number,
-                  label: const Text(
-                    "R\$",
-                  ),
-                  validator: Validatorless.required('campo obrigatório'),
-                ),
-              ],
+                  /* Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: CustomTextButton(
+                        buttonFunction: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          controller.gerarComprovante();
+                        },
+                        controller: controller,
+                        widgetTitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Enviar comprovante",
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: QTCsettings().textColorPrimaryDark,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400)),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.share,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        )),
+                  ) */
+                ],
+              ),
             ),
           ),
         ));

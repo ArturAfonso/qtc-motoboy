@@ -6,6 +6,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const EDIT_INFO_VEIC = _Paths.EDIT_INFO_VEIC;
   static const ONBOARDING = _Paths.ONBOARDING;
+  static const CORRIDAS = _Paths.CORRIDAS;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const EDIT_INFO_VEIC = '/edit-info-veic';
   static const ONBOARDING = '/onboarding';
+  static const CORRIDAS = '/corridas';
 }

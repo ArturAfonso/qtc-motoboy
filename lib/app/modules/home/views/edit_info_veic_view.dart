@@ -26,6 +26,15 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_sharp,
+              color: QTCsettings().colorPrimaryLight,
+            ),
+          ),
           backgroundColor: Colors.white,
           title: Text(
             'Editar Informações',
@@ -146,7 +155,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                     ),
                     validator: Validatorless.required('campo obrigatório'),
                   ),
-                  const Padding(
+                  /*  const Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
                       "Valor atual do litro da gasolina?",
@@ -204,7 +213,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                       "KM",
                     ),
                     validator: Validatorless.required('campo obrigatório'),
-                  ),
+                  ), */
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0),
                     child: CustomTextButton(

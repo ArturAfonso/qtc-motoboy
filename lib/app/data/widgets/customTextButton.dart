@@ -8,11 +8,13 @@ class CustomTextButton extends StatelessWidget {
     Key? key,
     required this.controller,
     this.buttonFunction,
-    required this.title,
+    this.title,
+    this.widgetTitle,
   }) : super(key: key);
 
   final GetxController controller;
-  final String title;
+  final String? title;
+  final Widget? widgetTitle;
 
   final Function()? buttonFunction;
 
@@ -47,10 +49,12 @@ class CustomTextButton extends StatelessWidget {
                 }),
               ),
               onPressed: buttonFunction,
-              child: Text(title,
-                  maxLines: 1,
-                  style:
-                      TextStyle(color: QTCsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
+              child: widgetTitle != null
+                  ? widgetTitle!
+                  : Text(title!,
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: QTCsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
         ));
   }
 }

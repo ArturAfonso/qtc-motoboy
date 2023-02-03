@@ -219,12 +219,27 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                     validator: Validatorless.required('campo obrigatório'),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: CustomTextButton(
+                        buttonFunction: () {
+                          controller.validarVeiculo();
+                          if (controller.page1.currentState!
+                              .validate() /*  && controller.page2.currentState!.validate() */) {
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Get.offAllNamed(Routes.HOME);
+                            });
+                          }
+                        },
+                        controller: controller,
+                        title: "Concluir"),
+                  )
                 ],
               ),
             )),
 //================================================================================
 //================================================================================
-        PageViewModel(
+        /*  PageViewModel(
             title: "",
             image: _buildImage('bitmap.png', width: 300, height: 300),
             decoration: pageDecoration,
@@ -310,13 +325,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   )
                 ],
               ),
-            )),
+            )), */
       ],
       onDone: () {
         /* controller.page1.currentState!.validate();
         controller.page2.currentState!.validate(); */
         controller.validarVeiculo();
-        if (controller.page1.currentState!.validate() && controller.page2.currentState!.validate()) {
+        if (controller.page1.currentState!.validate() /*  && controller.page2.currentState!.validate() */) {
           Future.delayed(const Duration(seconds: 2), () {
             Get.offAllNamed(Routes.HOME);
           });
@@ -337,13 +352,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
           return false;
         } else if (currentPage == 1 && controller.kmTrocaDeOleo.text.isEmpty) {
           return false;
-        } else if (currentPage == 2 && controller.valorAtualGasolina.text.isEmpty) {
+        } /* else if (currentPage == 2 && controller.valorAtualGasolina.text.isEmpty) {
           return false;
         } else if (currentPage == 2 && controller.distanciaCorridaKm.text.isEmpty) {
           return false;
         } else if (currentPage == 2 && controller.valorInformadoMotoboy.text.isEmpty) {
           return false;
-        } else {
+        } */
+        else {
           return true;
         }
       },
