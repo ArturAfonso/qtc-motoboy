@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -85,7 +87,9 @@ class DonateDialog extends StatelessWidget {
                           Future.delayed(const Duration(seconds: 2), () {
                             copied.value = false;
                           });
-                        } catch (e) {}
+                        } catch (e) {
+                          debugPrint(e.toString());
+                        }
                       },
                       icon: copied.value
                           ? Icon(Icons.check_rounded, size: 15, color: QTCsettings().textColorPrimaryLight)

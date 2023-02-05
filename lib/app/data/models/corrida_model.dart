@@ -19,7 +19,7 @@ class Corrida {
   "kmMedioTrocaDeOleo": 50.5
 } 
 */
-
+  String? idCorrida;
   String? dataDacorrida;
   double? precoDaGasolinaNoDia;
   double? distanciaDaCorridaKm;
@@ -31,6 +31,7 @@ class Corrida {
   double? kmMedioTrocaDeOleoNoDia;
 
   Corrida({
+    required this.idCorrida,
     required this.dataDacorrida,
     required this.precoDaGasolinaNoDia,
     required this.distanciaDaCorridaKm,
@@ -42,6 +43,7 @@ class Corrida {
     required this.kmMedioTrocaDeOleoNoDia,
   });
   Corrida.fromJson(Map<String, dynamic> json) {
+    idCorrida = json['idCorrida']?.toString();
     dataDacorrida = json['dataDacorrida']?.toString();
     precoDaGasolinaNoDia = json['precoDaGasolina']?.toDouble();
     distanciaDaCorridaKm = json['distanciaDaCorridaKm']?.toDouble();
@@ -54,6 +56,7 @@ class Corrida {
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['idCorrida'] = idCorrida;
     data['dataDacorrida'] = dataDacorrida;
     data['precoDaGasolina'] = precoDaGasolinaNoDia;
     data['distanciaDaCorridaKm'] = distanciaDaCorridaKm;
@@ -63,7 +66,6 @@ class Corrida {
     data['kmMedioRevisaoVeiculo'] = kmMedioRevisaoVeiculoNoDia;
     data['valorTrocaDeOleo'] = valorTrocaDeOleoNoDia;
     data['kmMedioTrocaDeOleo'] = kmMedioTrocaDeOleoNoDia;
-
     return data;
   }
 }

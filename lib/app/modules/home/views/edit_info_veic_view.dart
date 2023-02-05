@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
-import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
+import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
+import 'package:qtc_motoboy/app/data/widgets/custom_text_field.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 class EditInfoVeicView extends StatefulWidget {
+  const EditInfoVeicView({super.key});
+
   @override
   State<EditInfoVeicView> createState() => _EditInfoVeicViewState();
 }
@@ -87,7 +89,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                   ),
                   CustomTextField(
                     onChanged: (p0) {
-                      print(controller.editvalorMedioRevisao.text.length);
+                      debugPrint(controller.editvalorMedioRevisao.text.length.toString());
                     },
                     inputFormatters: [controller.currencyFormatter, LengthLimitingTextInputFormatter(10)],
                     customTextController: controller.editvalorMedioRevisao,

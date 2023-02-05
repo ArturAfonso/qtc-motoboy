@@ -59,34 +59,40 @@ class Utility {
     return valor;
   }
 
-  /*  void showToast({
-    required String message,
-    bool isError = false,
-  }) {
-    /*  Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: isError ? Colors.red : Colors.white,
-      textColor: isError ? Colors.white : Colors.black,
-      fontSize: 14,
-    ); */
-    Toast.show(
-      message,
-      duration: Toast.lengthShort,
-      gravity: Toast.bottom,
-      backgroundColor: isError ? VEGsettings().errorColor : Colors.white,
-      textStyle: TextStyle(fontSize: 14, color: isError ? Colors.white : Colors.black),
-
-      // webTexColor: isError ? Colors.white : Colors.black,
-    );
-  } */
-
   String formatDateTime(DateTime dateTime) {
     initializeDateFormatting();
 
     DateFormat dateFormat = DateFormat.yMd('pt_BR').add_Hm();
     return dateFormat.format(dateTime);
+  }
+
+  static String formatDate(String date,
+      {String prefix = "",
+      bool asIsoFormat = false,
+      bool toLocale = true,
+      bool compactData = false,
+      String format = "dd/MM/yyyy - HH:mm"}) {
+    initializeDateFormatting();
+
+    if (date.isEmpty) {
+      return "";
+    }
+    if (asIsoFormat) {
+      return DateTime.parse(date).toIso8601String();
+    }
+    DateTime oDate = toLocale ? DateTime.parse(date).toLocal() : DateTime.parse(date);
+    DateFormat formattedDate;
+    if (compactData) {
+      // formattedDate = DateFormat('dd-MM-yyyy_HH-mm', Get.locale.toString());
+      formattedDate = DateFormat('dd-MM-yyyy_HH-mm', Get.deviceLocale.toString());
+      return "$prefix${formattedDate.format(oDate)}";
+    } else {
+      formattedDate = DateFormat(format, Get.locale.toString());
+      if (prefix.isNotEmpty) {
+        return "$prefix ${formattedDate.format(oDate)}";
+      } else {
+        return formattedDate.format(oDate);
+      }
+    }
   }
 }

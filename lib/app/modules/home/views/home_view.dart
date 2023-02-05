@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:qtc_motoboy/app/data/widgets/customTextButton.dart';
-import 'package:qtc_motoboy/app/data/widgets/customTextField.dart';
+import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
+import 'package:qtc_motoboy/app/data/widgets/custom_text_field.dart';
+import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
+import 'package:qtc_motoboy/app/modules/home/views/print_dialog.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
@@ -29,9 +31,9 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
+  CorridasController cCorridas = Get.find();
   @override
   Widget build(BuildContext context) {
-    // controller.preencheCamposHome();
     return Scaffold(
         endDrawer: Drawer(
           width: Get.size.width,
@@ -282,6 +284,7 @@ class _HomeViewState extends State<HomeView> {
                     color: QTCsettings().colorPrimaryLight,
                   ),
                   onPressed: () {
+                    cCorridas.loadListCorridas();
                     Scaffold.of(context).openEndDrawer();
                   },
                   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -298,7 +301,7 @@ class _HomeViewState extends State<HomeView> {
           elevation: 0,
         ),
 
-//====================================================================================================
+        //====================================================================================================
         body: Form(
           key: controller.homeCorridaGlobalKey,
           child: SingleChildScrollView(
@@ -562,19 +565,87 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: CustomTextButton(
-                        buttonFunction: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          controller.gerarComprovante();
-                        },
-                        controller: controller,
-                        widgetTitle: Text("Concluir",
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: QTCsettings().textColorPrimaryDark, fontSize: 20, fontWeight: FontWeight.w400))),
-                  ),
+                  controller.imprimir.value == false
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Obx(() => CustomTextButton(
+                              buttonFunction: controller.loading.value != true
+                                  ? () async {
+                                      if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
+                                          controller.homevalorInformadoMotoboy.text != "" &&
+                                          controller.homevalorAtualGasolina.text.isNotEmpty &&
+                                          controller.homevalorAtualGasolina.text != "" &&
+                                          controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                                          controller.homedistanciaCorridaKm.text != "" &&
+                                          controller.homelucroDacorridaController.text != "" &&
+                                          controller.homelucroDacorridaController.text.isNotEmpty) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        controller.gerarCorrida();
+                                        //setState(() {});
+                                      } else {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        controller.homeCorridaGlobalKey.currentState!.validate();
+                                      }
+                                    }
+                                  : () {},
+                              controller: controller,
+                              widgetTitle: controller.loading.value != true
+                                  ? Text("Concluir",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: QTCsettings().textColorPrimaryDark,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400))
+                                  : const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ))),
+                        )
+                      : Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: CustomTextButton(
+                                  buttonFunction: () {
+                                    setState(() {
+                                      controller.imprimir.value = false;
+                                      controller.loading.value = false;
+                                      setState(() {
+                                        controller.limparCamposHome();
+                                      });
+                                    });
+                                  },
+                                  controller: controller,
+                                  widgetTitle: Text("Nova corrida",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: QTCsettings().textColorPrimaryDark,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400))),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: CustomTextButton(
+                                  buttonFunction: () {
+                                    controller.imprimir.value = false;
+                                    controller.limparCamposHome();
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return PrintDialog(corrida: cCorridas.listCorridas.last);
+                                      },
+                                    );
+                                  },
+                                  controller: controller,
+                                  widgetTitle: Text("Enviar comprovante",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: QTCsettings().textColorPrimaryDark,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400))),
+                            )
+                          ],
+                        ),
                   /* Padding(
                     padding: const EdgeInsets.only(top: 15.0),
                     child: CustomTextButton(

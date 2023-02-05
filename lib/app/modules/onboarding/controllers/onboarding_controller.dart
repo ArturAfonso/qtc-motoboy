@@ -8,6 +8,7 @@ import 'package:qtc_motoboy/app/data/utility.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
 
 class OnboardingController extends GetxController {
+  RxBool loading = false.obs;
   //FlutterSecureStorage storage = const FlutterSecureStorage();
   GetStorage storage = GetStorage('storage');
   Veiculo veiculo = Veiculo();
@@ -40,6 +41,7 @@ class OnboardingController extends GetxController {
       veiculo = Veiculo.fromJson(mapa);
       /*  var custosmapa = storage.read("custos");
       custos = Custos.fromJson(custosmapa); */
+
       return Routes.HOME;
     }
   }
@@ -58,7 +60,7 @@ class OnboardingController extends GetxController {
       custos.distanciaCorridaKm = Utility().convertToDouble(distanciaCorridaKm.text);
       custos.valorInformadoMotoboy = Utility().convertToDouble(valorInformadoMotoboy.text); */
 
-      print('===== veiculo salvo=====');
+      debugPrint('===== veiculo salvo=====');
       storage.write("veiculo", veiculo);
       //storage.write("custos", custos);
     }
@@ -67,7 +69,7 @@ class OnboardingController extends GetxController {
 
   preencheModelVeiculoCustos() {
     //chamado ao abrir Editar informações
-    if (storage.read('veiculo') == null || storage.read('custos') == null) {
+    if (storage.read('veiculo') == null /*  || storage.read('custos') == null */) {
     } else {
       var mapa = storage.read("veiculo");
 
@@ -76,7 +78,10 @@ class OnboardingController extends GetxController {
       } else {
         veiculo = Veiculo.fromJson(mapa);
       }
+    }
 
+    if (storage.read('custos') == null) {
+    } else {
       var custosmapa = storage.read("custos");
       if (custosmapa.runtimeType == Custos) {
         custos = custosmapa;

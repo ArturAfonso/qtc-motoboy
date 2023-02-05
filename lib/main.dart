@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qtc_motoboy/app/app_settings.dart';
+import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
 import 'package:qtc_motoboy/app/modules/onboarding/controllers/onboarding_controller.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
@@ -15,6 +16,7 @@ Future<void> main() async {
   Get.put(OnboardingController());
   Get.put(HomeController());
   OnboardingController cOnboarding = Get.find();
+  Get.put(CorridasController());
 
   var startApp = AppSettings(
       settings: QTCsettings(),
@@ -25,6 +27,7 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         theme: appTheme,
         defaultTransition: Transition.fadeIn,
+        locale: const Locale("pt", "BR"),
       ));
 
   runApp(startApp);

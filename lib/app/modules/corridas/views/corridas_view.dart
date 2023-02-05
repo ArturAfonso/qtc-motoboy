@@ -6,36 +6,67 @@ import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 
 import '../controllers/corridas_controller.dart';
 
-class CorridasView extends GetView<CorridasController> {
+class CorridasView extends StatefulWidget {
+  const CorridasView({super.key});
+
+  @override
+  State<CorridasView> createState() => _CorridasViewState();
+}
+
+class _CorridasViewState extends State<CorridasView> {
+  CorridasController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: Icon(
-            Icons.arrow_back_ios_sharp,
-            color: QTCsettings().colorPrimaryLight,
+    controller.loadListCorridas;
+    return RefreshIndicator(
+      onRefresh: controller.reload,
+      child: Scaffold(
+          appBar: AppBar(
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(
+                Icons.arrow_back_ios_sharp,
+                color: QTCsettings().colorPrimaryLight,
+              ),
+            ),
+            backgroundColor: Colors.white,
+            title: Text(
+              'Histórico de Corridas',
+              style: TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
+            ),
+            centerTitle: true,
+            elevation: 0,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      controller.loadListCorridas();
+                    });
+                  },
+                  icon: Icon(
+                    Icons.refresh,
+                    color: QTCsettings().textColorPrimaryLight,
+                  ))
+            ],
           ),
-        ),
-        backgroundColor: Colors.white,
-        title: Text(
-          'Histórico de Corridas',
-          style: TextStyle(color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 22),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        physics: const BouncingScrollPhysics(),
-        separatorBuilder: (_, index) => const SizedBox(height: 10),
-        itemBuilder: (_, index) =>
-            CorridaTile(controller: controller.cHome.cOnboarding, corrida: controller.listCorridas[index]),
-        itemCount: controller.listCorridas.length,
-      ),
+          body: GetBuilder<CorridasController>(
+            init: controller,
+            initState: (_) {},
+            builder: (_) {
+              return ListView.separated(
+                padding: const EdgeInsets.all(16),
+                physics: const BouncingScrollPhysics(),
+                separatorBuilder: (_, index) => const SizedBox(height: 10),
+                itemBuilder: (_, index) {
+                  final GlobalKey globalKey = GlobalKey();
+                  return CorridaTile(chave: globalKey, corrida: controller.listCorridas[index]);
+                },
+                itemCount: controller.listCorridas.length,
+              );
+            },
+          )),
     );
   }
 }

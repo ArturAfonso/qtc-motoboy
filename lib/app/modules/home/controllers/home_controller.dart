@@ -2,13 +2,17 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qtc_motoboy/app/data/models/corrida_model.dart';
 import 'package:qtc_motoboy/app/data/models/custos.dart';
 import 'package:qtc_motoboy/app/data/models/veiculo.dart';
 import 'package:qtc_motoboy/app/data/utility.dart';
+import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
 import 'package:qtc_motoboy/app/modules/onboarding/controllers/onboarding_controller.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
+  RxBool loading = false.obs;
+  RxBool imprimir = false.obs;
   OnboardingController cOnboarding = Get.find();
   ScrollController? optionsScrollViewController = ScrollController();
 
@@ -60,6 +64,14 @@ class HomeController extends GetxController {
         custos = Custos.fromJson(custosmapa);
       }
     }
+  }
+
+  limparCamposHome() {
+    homevalorInformadoMotoboy.clear();
+    homevalorAtualGasolina.clear();
+    homedistanciaCorridaKm.clear();
+    homecustosDaCorridaController.clear();
+    homelucroDacorridaController.clear();
   }
 
   preencheCamposHome(
@@ -169,50 +181,75 @@ class HomeController extends GetxController {
     editdistanciaCorridaKm.text = cOnboarding.custos.distanciaCorridaKm.toString();
     editvalorInformadoMotoboy.text = cOnboarding.custos.valorInformadoMotoboy.toString();
 
-    print("editar preenchido");
+    debugPrint("editar preenchido");
   }
 
   updateEditVeiCust() {
     if (editVeicGlobalKey.currentState!.validate()) {
       cOnboarding.storage.erase();
       cOnboarding.veiculo.kmPorLitro = Utility().convertToDouble(editkmPorLitro.text);
-      print(cOnboarding.veiculo.kmPorLitro);
 
-      print("valorMedioRevisao.text ${editvalorMedioRevisao.text}");
+      debugPrint("valorMedioRevisao.text ${editvalorMedioRevisao.text}");
       cOnboarding.veiculo.valorMedioRevisao = Utility().convertToDouble(editvalorMedioRevisao.text);
-      print(cOnboarding.veiculo.valorMedioRevisao);
 
-      print("kmRevisaoMedia.text ${editkmRevisaoMedia.text}");
       cOnboarding.veiculo.kmMedioRevisao = Utility().convertToDouble(editkmRevisaoMedia.text);
 
-      print("valorTrocaDeOleo.text ${editvalorTrocaDeOleo.text}");
       cOnboarding.veiculo.valorTrocaDeOleo = Utility().convertToDouble(editvalorTrocaDeOleo.text);
 
-      print("kmTrocaDeOleo.text ${editkmTrocaDeOleo.text}");
       cOnboarding.veiculo.kmMedioTrocaDeOleo = Utility().convertToDouble(editkmTrocaDeOleo.text);
 
-      /*  print("===========pagina 2 ================");
-
-      print("valorAtualGasolina.text ${editvalorAtualGasolina.text}");
-      cOnboarding.custos.precoGasolina = Utility().convertToDouble(editvalorAtualGasolina.text);
- */
-      /*   print("distanciaCorridaKm.text ${editdistanciaCorridaKm.text}");
-      cOnboarding.custos.distanciaCorridaKm = Utility().convertToDouble(editdistanciaCorridaKm.text); */
-
-      /*  print("valorInformadoMotoboy.text ${editvalorInformadoMotoboy.text}");
-      cOnboarding.custos.valorInformadoMotoboy = Utility().convertToDouble(editvalorInformadoMotoboy.text); */
-
-      print('=====Updated veiculo=====');
+      debugPrint('=====Updated veiculo=====');
       cOnboarding.storage.write("veiculo", cOnboarding.veiculo);
-      //cOnboarding.storage.write("custos", cOnboarding.custos);
 
-      //preencheCamposHome();
       Get.offAndToNamed(Routes.HOME);
     }
   }
 
-  gerarComprovante() {
-    if (homeCorridaGlobalKey.currentState!.validate()) {}
+  String idGenerator() {
+    final now = DateTime.now();
+    return now.microsecondsSinceEpoch.toString();
+  }
+
+  gerarCorrida() {
+    loading.value = true;
+    try {
+      if (homeCorridaGlobalKey.currentState!.validate()) {
+        updateModels();
+        Corrida newCorrida = Corrida(
+            idCorrida: idGenerator(),
+            dataDacorrida: DateTime.now().toString(),
+            precoDaGasolinaNoDia: Utility().convertToDouble(homevalorAtualGasolina.text),
+            distanciaDaCorridaKm: Utility().convertToDouble(homedistanciaCorridaKm.text),
+            precoCobradoPeloMotoboyNoDia: Utility().convertToDouble(homevalorInformadoMotoboy.text),
+            kmPorLitroVeiculoNoDia: veiculo.kmPorLitro,
+            valorMedioRevisaoVeiculoNoDia: veiculo.valorMedioRevisao,
+            kmMedioRevisaoVeiculoNoDia: veiculo.valorMedioRevisao,
+            valorTrocaDeOleoNoDia: veiculo.valorTrocaDeOleo,
+            kmMedioTrocaDeOleoNoDia: veiculo.kmMedioTrocaDeOleo);
+        CorridasController cCorridas = Get.find();
+        //cCorridas.listCorridas.clear();
+
+        cCorridas.loadListCorridas();
+
+        cCorridas.listCorridas.add(newCorrida);
+
+        // storage.remove("corridas");
+        List<dynamic> teste = [];
+        for (var element in cCorridas.listCorridas) {
+          teste.add(element.toJson());
+        }
+        print(teste.runtimeType.toString());
+        print(teste.toString());
+        storage.write("corridas", teste);
+        update();
+
+        loading.value = false;
+        imprimir.value = true;
+        return newCorrida;
+      }
+    } catch (e) {
+      loading.value = false;
+    }
   }
 }
 

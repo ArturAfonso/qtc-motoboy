@@ -25,7 +25,14 @@ dependencies:
   #https://pub.dev/packages/introduction_screen
   introduction_screen: ^3.1.4
 
+  image_gallery_saver: ^1.7.1
+
+  path_provider: ^2.0.12
+
   qr_flutter: ^4.0.0
+
+  share_plus: ^5.0.0
+
 
   #https://pub.dev/packages/validatorless
   validatorless: ^1.2.3

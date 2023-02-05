@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:get/get.dart';
 
 import 'package:qtc_motoboy/app/modules/corridas/bindings/corridas_binding.dart';
@@ -24,7 +26,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.EDIT_INFO_VEIC,
-      page: () => EditInfoVeicView(),
+      page: () => const EditInfoVeicView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -34,7 +36,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CORRIDAS,
-      page: () => CorridasView(),
+      page: () => const CorridasView(),
       binding: CorridasBinding(),
     ),
   ];
