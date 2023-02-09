@@ -8,6 +8,8 @@ environment:
 dependencies: 
   #https://pub.dev/packages/all_validations_br
   all_validations_br: ^3.0.0
+
+  brasil_fields: 1.9.1
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.7
   flutter_secure_storage: ^7.0.1
