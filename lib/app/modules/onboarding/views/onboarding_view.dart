@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:introduction_screen/introduction_screen.dart';
@@ -132,7 +131,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter, /* LengthLimitingTextInputFormatter(10) */
                     ],
                     inputType: TextInputType.number,
                     customTextController: controller.kmPorLitro,
@@ -153,7 +152,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     onChanged: (p0) {
                       debugPrint(controller.valorMedioRevisao.text.length.toString());
                     },
-                    inputFormatters: [controller.currencyFormatter, LengthLimitingTextInputFormatter(10)],
+                    inputFormatters: [
+                      controller.currencyFormatter, /*  LengthLimitingTextInputFormatter(10) */
+                    ],
                     customTextController: controller.valorMedioRevisao,
                     inputType: TextInputType.number,
                     label: const Text(
@@ -171,7 +172,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter, /* LengthLimitingTextInputFormatter(10) */
                     ],
                     customTextController: controller.kmRevisaoMedia,
                     inputType: TextInputType.number,
@@ -191,7 +192,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   CustomTextField(
                     inputFormatters: [
                       controller.currencyFormatter,
-                      LengthLimitingTextInputFormatter(10),
+                      /*  LengthLimitingTextInputFormatter(10), */
                     ],
                     customTextController: controller.valorTrocaDeOleo,
                     inputType: TextInputType.number,
@@ -210,7 +211,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter, /*  LengthLimitingTextInputFormatter(10) */
                     ],
                     customTextController: controller.kmTrocaDeOleo,
                     inputType: TextInputType.number,

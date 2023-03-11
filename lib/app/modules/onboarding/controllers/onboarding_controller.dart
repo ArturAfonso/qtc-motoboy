@@ -90,11 +90,11 @@ class OnboardingController extends GetxController {
       }
     }
 
-    kmPorLitro.text = veiculo.kmPorLitro.toString();
-    valorMedioRevisao.text = veiculo.valorMedioRevisao.toString();
-    kmRevisaoMedia.text = veiculo.kmMedioRevisao.toString();
-    valorTrocaDeOleo.text = veiculo.valorTrocaDeOleo.toString();
-    kmTrocaDeOleo.text = veiculo.kmMedioTrocaDeOleo.toString();
+    kmPorLitro.text = Utility().removeZeros(veiculo.kmPorLitro!);
+    valorMedioRevisao.text = Utility().removeZeros(veiculo.valorMedioRevisao!);
+    kmRevisaoMedia.text = Utility().removeZeros(veiculo.kmMedioRevisao!);
+    valorTrocaDeOleo.text = Utility().removeZeros(veiculo.valorTrocaDeOleo!);
+    kmTrocaDeOleo.text = Utility().removeZeros(veiculo.kmMedioTrocaDeOleo!);
 
 /*     //pagina2
     valorAtualGasolina.text = custos.precoGasolina.toString();

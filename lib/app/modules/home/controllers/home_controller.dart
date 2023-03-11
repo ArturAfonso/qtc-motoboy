@@ -171,15 +171,15 @@ class HomeController extends GetxController {
   preencherEditarInfo() {
     cOnboarding.preencheModelVeiculoCustos();
 
-    editkmPorLitro.text = cOnboarding.veiculo.kmPorLitro.toString();
-    editvalorMedioRevisao.text = cOnboarding.veiculo.valorMedioRevisao.toString();
-    editkmRevisaoMedia.text = cOnboarding.veiculo.kmMedioRevisao.toString();
-    editvalorTrocaDeOleo.text = cOnboarding.veiculo.valorTrocaDeOleo.toString();
-    editkmTrocaDeOleo.text = cOnboarding.veiculo.kmMedioTrocaDeOleo.toString();
+    editkmPorLitro.text = Utility().removeZeros(cOnboarding.veiculo.kmPorLitro!);
+    editvalorMedioRevisao.text = Utility().removeZeros(cOnboarding.veiculo.valorMedioRevisao!);
+    editkmRevisaoMedia.text = Utility().removeZeros(cOnboarding.veiculo.kmMedioRevisao!);
+    editvalorTrocaDeOleo.text = Utility().removeZeros(cOnboarding.veiculo.valorTrocaDeOleo!);
+    editkmTrocaDeOleo.text = Utility().removeZeros(cOnboarding.veiculo.kmMedioTrocaDeOleo!);
 
-    editvalorAtualGasolina.text = cOnboarding.custos.precoGasolina.toString();
-    editdistanciaCorridaKm.text = cOnboarding.custos.distanciaCorridaKm.toString();
-    editvalorInformadoMotoboy.text = cOnboarding.custos.valorInformadoMotoboy.toString();
+    /*  editvalorAtualGasolina.text = Utility().removeZeros(cOnboarding.custos.precoGasolina!);
+    editdistanciaCorridaKm.text = Utility().removeZeros(cOnboarding.custos.distanciaCorridaKm!);
+    editvalorInformadoMotoboy.text = Utility().removeZeros(cOnboarding.custos.valorInformadoMotoboy!); */
 
     debugPrint("editar preenchido");
   }

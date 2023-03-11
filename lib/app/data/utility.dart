@@ -34,7 +34,17 @@ class Utility {
     return numberFormat.format(price);
   }
 
-  double convertToDouble(String value) {
+  double convertToDouble(String currency) {
+    return double.parse(currency.replaceAll('.', '').replaceAll(',', '.'));
+  }
+
+  String removeZeros(double value) {
+    String result = value.toString().endsWith(".0") ? value.toString().split('.')[0] : value.toString();
+
+    return result;
+  }
+
+/*   double convertToDouble(String value) {
     value = value.removeAllWhitespace;
     value = value.trim();
     value = value.replaceFirst(RegExp(r','), '.');
@@ -57,7 +67,7 @@ class Utility {
     }
     double valor = double.parse(value);
     return valor;
-  }
+  } */
 
   String formatDateTime(DateTime dateTime) {
     initializeDateFormatting();

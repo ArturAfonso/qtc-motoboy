@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
@@ -70,7 +69,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter,
                     ],
                     inputType: TextInputType.number,
                     customTextController: controller.editkmPorLitro,
@@ -91,7 +90,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                     onChanged: (p0) {
                       debugPrint(controller.editvalorMedioRevisao.text.length.toString());
                     },
-                    inputFormatters: [controller.currencyFormatter, LengthLimitingTextInputFormatter(10)],
+                    inputFormatters: [controller.currencyFormatter],
                     customTextController: controller.editvalorMedioRevisao,
                     inputType: TextInputType.number,
                     label: const Text(
@@ -109,7 +108,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter,
                     ],
                     customTextController: controller.editkmRevisaoMedia,
                     inputType: TextInputType.number,
@@ -129,7 +128,6 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                   CustomTextField(
                     inputFormatters: [
                       controller.currencyFormatter,
-                      LengthLimitingTextInputFormatter(10),
                     ],
                     customTextController: controller.editvalorTrocaDeOleo,
                     inputType: TextInputType.number,
@@ -148,7 +146,7 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                   ),
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      controller.currencyFormatter,
                     ],
                     customTextController: controller.editkmTrocaDeOleo,
                     inputType: TextInputType.number,
