@@ -8,21 +8,21 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:qtc_motoboy/app/data/models/corrida_model.dart';
+
 import 'package:qtc_motoboy/app/data/utility.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CorridasController extends GetxController {
   HomeController cHome = Get.find();
-  List<Corrida> listCorridas = <Corrida>[];
+  //List<Corrida> listCorridas = <Corrida>[];
   GetStorage storage = GetStorage('storage');
 
   Future<void> reload() async {
-    loadListCorridas();
+    // loadListCorridas();
   }
 
-  loadListCorridas() {
+/*   loadListCorridas() {
     if (storage.read('corridas') == null) {
     } else {
       var mapacorridas = storage.read("corridas");
@@ -43,13 +43,13 @@ class CorridasController extends GetxController {
           listCorridas.clear();
         }
         mapacorridas.forEach((element) {
-          listCorridas.add(Corrida.fromJson(element));
+         // listCorridas.add(Corrida.fromJson(element));
           print(listCorridas.length);
           update();
         });
       }
     }
-  }
+  } */
 
   String idGenerator() {
     final now = DateTime.now();
@@ -100,44 +100,8 @@ class CorridasController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    cHome.updateModels();
-    loadListCorridas();
-
-    /* 
-    listCorridas.value = [
-      Corrida(
-          idCorrida: idGenerator(),
-          dataDacorrida: "10/10/10",
-          distanciaDaCorridaKm: 50,
-          kmMedioRevisaoVeiculoNoDia: 10000.00,
-          kmMedioTrocaDeOleoNoDia: 3000,
-          kmPorLitroVeiculoNoDia: 45,
-          precoCobradoPeloMotoboyNoDia: 30,
-          precoDaGasolinaNoDia: 5.99,
-          valorMedioRevisaoVeiculoNoDia: 150,
-          valorTrocaDeOleoNoDia: 30),
-      Corrida(
-          idCorrida: idGenerator(),
-          dataDacorrida: "10/10/10",
-          distanciaDaCorridaKm: 50,
-          kmMedioRevisaoVeiculoNoDia: 10000.00,
-          kmMedioTrocaDeOleoNoDia: 3000,
-          kmPorLitroVeiculoNoDia: 45,
-          precoCobradoPeloMotoboyNoDia: 70,
-          precoDaGasolinaNoDia: 5.99,
-          valorMedioRevisaoVeiculoNoDia: 150,
-          valorTrocaDeOleoNoDia: 30),
-      Corrida(
-          idCorrida: idGenerator(),
-          dataDacorrida: "10/10/10",
-          distanciaDaCorridaKm: 50,
-          kmMedioRevisaoVeiculoNoDia: 10000.00,
-          kmMedioTrocaDeOleoNoDia: 3000,
-          kmPorLitroVeiculoNoDia: 45,
-          precoCobradoPeloMotoboyNoDia: 45,
-          precoDaGasolinaNoDia: 5.99,
-          valorMedioRevisaoVeiculoNoDia: 150,
-          valorTrocaDeOleoNoDia: 30),
-    ]; */
+    debugPrint('on init');
+    /*   cHome.updateModels();
+    loadListCorridas(); */
   }
 }

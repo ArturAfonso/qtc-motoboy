@@ -2,12 +2,12 @@
 
 import 'package:get/get.dart';
 
-import 'package:qtc_motoboy/app/modules/corridas/bindings/corridas_binding.dart';
-import 'package:qtc_motoboy/app/modules/corridas/views/corridas_view.dart';
 import 'package:qtc_motoboy/app/modules/home/views/edit_info_veic_view.dart';
 import 'package:qtc_motoboy/app/modules/onboarding/bindings/onboarding_binding.dart';
 import 'package:qtc_motoboy/app/modules/onboarding/views/onboarding_view.dart';
 
+import '../modules/corridas/bindings/corridas_binding.dart';
+import '../modules/corridas/views/corridas_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 

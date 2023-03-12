@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_field.dart';
-import 'package:qtc_motoboy/app/routes/app_pages.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -45,24 +45,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
       pageColor: Colors.white,
       imagePadding: EdgeInsets.only(top: 70),
     );
-    var arg = Get.arguments;
-    if (arg != null) {
-      if (arg['alterarDadosVeiculo'] == true) {
-        controller.preencheModelVeiculoCustos();
-      }
-    }
 
     return IntroductionScreen(
       key: introKey,
-
       onChange: (value) {
         setState(() {});
-        /*  print(value);
-        if (value == 1) {
-          controller.page1.currentState!.validate();
-        } else if (value == 1) {
-          controller.page2.currentState!.validate();
-        } */
       },
       globalBackgroundColor: Colors.white,
       globalHeader: const Align(
@@ -77,7 +64,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ),
       ),
-
       pages: [
         PageViewModel(
           title: "",
@@ -92,7 +78,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       TextSpan(text: "QTC Motoboy ", style: TextStyle(fontWeight: FontWeight.w700)),
                       TextSpan(
                           text:
-                              " é um aplicativo de gestão de entregas no qual o entregador consegue inserir seus custos e calcular corretamente o exato valor no qual está lucrando por entrega.")
+                              " é um aplicativo de gestão de entregas, com ele você irá inserir alguns dados de consumo do seu veiculo e trajeto da corrida, iremos lhe mostrar o custo total e sugerir um valor a ser cobrado na entrega.")
                     ]),
               )
             ],
@@ -109,12 +95,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
             //image: _buildImage('intro2.png'),
             decoration: pageDecoration,
             bodyWidget: Form(
-              key: controller.page1,
+              key: controller.onboardingFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 40.0, bottom: 80),
+                    padding: EdgeInsets.only(top: 25.0, bottom: 10),
                     child: Text(
                       "Preencha as informações abaixo para começar a calcular suas corridas corretamente",
                       textAlign: TextAlign.center,
@@ -130,61 +116,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                   ),
                   CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter, /* LengthLimitingTextInputFormatter(10) */
-                    ],
+                    inputFormatters: [controller.currencyFormatterKm, LengthLimitingTextInputFormatter(6)],
                     inputType: TextInputType.number,
-                    customTextController: controller.kmPorLitro,
-                    label: const Text(
-                      "KM",
+                    customTextController: controller.qtdkmPorLitro,
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 13),
+                      child: Text(
+                        "R\$",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
+                    /*  icon: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 8, right: 2),
+                      child: Text(
+                        "Km",
+                        style: TextStyle(fontSize: 20, color: QTCsettings().textColorSecondaryLight),
+                      ),
+                    ), */
                     validator: Validatorless.required('campo obrigatório'),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 15, bottom: 10.0),
                     child: Text(
-                      "Qual o valor médio da revisão de seu veículo?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    onChanged: (p0) {
-                      debugPrint(controller.valorMedioRevisao.text.length.toString());
-                    },
-                    inputFormatters: [
-                      controller.currencyFormatter, /*  LengthLimitingTextInputFormatter(10) */
-                    ],
-                    customTextController: controller.valorMedioRevisao,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
-                    child: Text(
-                      "Quantos KM em média você faz revisão?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter, /* LengthLimitingTextInputFormatter(10) */
-                    ],
-                    customTextController: controller.kmRevisaoMedia,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
-                    child: Text(
-                      "Qual o valor médio da troca de óleo de seu veículo?",
+                      "Qual o valor do combustível na sua região atualmente?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
@@ -192,33 +146,40 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   CustomTextField(
                     inputFormatters: [
                       controller.currencyFormatter,
-                      /*  LengthLimitingTextInputFormatter(10), */
                     ],
-                    customTextController: controller.valorTrocaDeOleo,
+                    customTextController: controller.precoGasolina,
                     inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 13),
+                      child: Text(
+                        "R\$",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     validator: Validatorless.required('campo obrigatório'),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 15, bottom: 10.0),
                     child: Text(
-                      "Com quantos KM você troca o óleo de seu veículo?",
+                      "Quer estabelecer um percentual de lucro fixo?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
                   CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter, /*  LengthLimitingTextInputFormatter(10) */
-                    ],
-                    customTextController: controller.kmTrocaDeOleo,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
+                    onChanged: (s) {
+                      debugPrint(controller.percentualLucroFixo.text.length.toString());
+                    },
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 12.0, top: 13),
+                      child: Text(
+                        "%",
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
-                    validator: Validatorless.required('campo obrigatório'),
+                    inputFormatters: [controller.currencyFormatterKm, LengthLimitingTextInputFormatter(6)],
+                    customTextController: controller.percentualLucroFixo,
+                    inputType: TextInputType.number,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0),
@@ -226,14 +187,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         buttonFunction: controller.loading.value != true
                             ? () {
                                 controller.loading.value = true;
-                                controller.validarVeiculo();
-                                if (controller.page1.currentState!
-                                    .validate() /*  && controller.page2.currentState!.validate() */) {
-                                  Future.delayed(const Duration(seconds: 2), () {
-                                    Get.offAllNamed(Routes.HOME);
-                                    controller.loading.value = false;
-                                  });
-                                }
+                                controller.validarCamposOnboarding();
                               }
                             : () {},
                         controller: controller,
@@ -251,137 +205,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ],
               ),
             )),
-//================================================================================
-//================================================================================
-        /*  PageViewModel(
-            title: "",
-            image: _buildImage('bitmap.png', width: 300, height: 300),
-            decoration: pageDecoration,
-            bodyWidget: Form(
-              key: controller.page2,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      "Valor atual do litro da gasolina?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter,
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    customTextController: controller.valorAtualGasolina,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 5.0),
-                    child: Text(
-                      "Distância da corrida em KM?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    customTextController: controller.distanciaCorridaKm,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 5.0),
-                    child: Text(
-                      "Quanto você pretende cobrar por esta corrida?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter,
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    customTextController: controller.valorInformadoMotoboy,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: CustomTextButton(
-                        buttonFunction: () {
-                          controller.validarVeiculo();
-                          if (controller.page1.currentState!.validate() && controller.page2.currentState!.validate()) {
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Get.offAllNamed(Routes.HOME);
-                            });
-                          }
-                        },
-                        controller: controller,
-                        title: "Concluir"),
-                  )
-                ],
-              ),
-            )), */
       ],
       onDone: () {
-        /* controller.page1.currentState!.validate();
-        controller.page2.currentState!.validate(); */
-        controller.validarVeiculo();
-        if (controller.page1.currentState!.validate() /*  && controller.page2.currentState!.validate() */) {
-          Future.delayed(const Duration(seconds: 2), () {
-            Get.offAllNamed(Routes.HOME);
-          });
-        }
+        controller.loading.value != true
+            ? () {
+                controller.loading.value = true;
+                controller.validarCamposOnboarding();
+              }
+            : () {};
       },
-      //onDone: () => _onIntroEnd(context),
-      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
-      //showSkipButton: true,
       canProgress: (page) {
         int currentPage = page.round();
-        if (currentPage == 1 && controller.kmPorLitro.text.isEmpty) {
+        if (currentPage == 1 && controller.qtdkmPorLitro.text.isEmpty) {
           return false;
-        } else if (currentPage == 1 && controller.valorMedioRevisao.text.isEmpty) {
+        } else if (currentPage == 1 && controller.precoGasolina.text.isEmpty) {
           return false;
-        } else if (currentPage == 1 && controller.kmRevisaoMedia.text.isEmpty) {
-          return false;
-        } else if (currentPage == 1 && controller.valorTrocaDeOleo.text.isEmpty) {
-          return false;
-        } else if (currentPage == 1 && controller.kmTrocaDeOleo.text.isEmpty) {
-          return false;
-        } /* else if (currentPage == 2 && controller.valorAtualGasolina.text.isEmpty) {
-          return false;
-        } else if (currentPage == 2 && controller.distanciaCorridaKm.text.isEmpty) {
-          return false;
-        } else if (currentPage == 2 && controller.valorInformadoMotoboy.text.isEmpty) {
-          return false;
-        } */
-        else {
+        } else {
           return true;
         }
       },
       skipOrBackFlex: 0,
-
       nextFlex: 0,
       showBackButton: true,
-      //rtl: true, // Display as right-to-left
       back: Icon(
         Icons.keyboard_double_arrow_left,
         color: QTCsettings().colorPrimaryLight,
@@ -404,11 +249,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           color: QTCsettings().textColorPrimaryDark,
           activeSize: const Size(30.0, 20.0),
           activeColor: QTCsettings().colorPrimaryLight,
-          shape: const CircleBorder(side: BorderSide(color: Colors.black))
-          /*  activeShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        ), */
-          ),
+          shape: const CircleBorder(side: BorderSide(color: Colors.black))),
       dotsContainerDecorator: const ShapeDecoration(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(

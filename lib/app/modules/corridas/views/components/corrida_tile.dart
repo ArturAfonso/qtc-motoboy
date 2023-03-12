@@ -1,8 +1,8 @@
-// ignore_for_file: must_be_immutable
+/* // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qtc_motoboy/app/data/models/corrida_model.dart';
+
 import 'package:qtc_motoboy/app/data/utility.dart';
 import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
@@ -217,3 +217,4 @@ class CorridaTile extends StatelessWidget {
     );
   }
 }
+ */

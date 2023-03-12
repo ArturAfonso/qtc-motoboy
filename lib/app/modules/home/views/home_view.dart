@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_field.dart';
-import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
-import 'package:qtc_motoboy/app/modules/home/views/print_dialog.dart';
 import 'package:qtc_motoboy/app/routes/app_pages.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
@@ -27,11 +25,11 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    //controller.preencheCamposHome();
+    controller.preencheCamposHome();
     super.initState();
   }
 
-  CorridasController cCorridas = Get.find();
+  //CorridasController cCorridas = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +50,6 @@ class _HomeViewState extends State<HomeView> {
                           fontSize: 26, fontWeight: FontWeight.w700, color: QTCsettings().textColorPrimaryLight),
                     ),
                     centerTitle: true,
-                    //backgroundColor: MOTsettings().colorPrimaryLight,
                     backgroundColor: Colors.white,
                     elevation: 0,
                     actions: [
@@ -116,11 +113,9 @@ class _HomeViewState extends State<HomeView> {
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: InkWell(
                             onLongPress: () {
-                              controller.cOnboarding.storage.erase();
+                              controller.storage.erase();
                             },
                             onTap: () {
-                              // controller.cOnboarding.preencheDadosVeiculo();
-                              //Get.toNamed(Routes.ONBOARDING, arguments: {"alterarDadosVeiculo": true});
                               Get.toNamed(Routes.EDIT_INFO_VEIC);
                             },
                             child: Row(
@@ -284,7 +279,7 @@ class _HomeViewState extends State<HomeView> {
                     color: QTCsettings().colorPrimaryLight,
                   ),
                   onPressed: () {
-                    cCorridas.loadListCorridas();
+                    //cCorridas.loadListCorridas();
                     Scaffold.of(context).openEndDrawer();
                   },
                   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -303,7 +298,7 @@ class _HomeViewState extends State<HomeView> {
 
         //====================================================================================================
         body: Form(
-          key: controller.homeCorridaGlobalKey,
+          key: controller.homeFormKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -316,73 +311,13 @@ class _HomeViewState extends State<HomeView> {
                     style: TextStyle(
                         color: QTCsettings().textColorPrimaryLight, fontWeight: FontWeight.w800, fontSize: 18),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 10.0),
-                    child: Text(
-                      "Quanto você pretende cobrar pela entrega?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  FocusScope(
-                    onFocusChange: (value) {
-                      if (!value) {
-                        setState(() {
-                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                              controller.homevalorInformadoMotoboy.text != "" &&
-                              controller.homevalorAtualGasolina.text.isNotEmpty &&
-                              controller.homevalorAtualGasolina.text != "" &&
-                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
-                              controller.homedistanciaCorridaKm.text != "") {
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
-                                precoGasolina: controller.homevalorAtualGasolina.text,
-                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
-                            //controller.listenerHomeValorInformadoMotoby(controller.homevalorInformadoMotoboy.text);
-                          }
-                        });
-                      }
-                    },
-                    child: CustomTextField(
-                      icon: const Padding(
-                        padding: EdgeInsets.only(left: 8.0, top: 13),
-                        child: Text(
-                          "R\$",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      onSubmitted: (p0) {
-                        setState(() {
-                          if (p0.isNotEmpty &&
-                              p0 != "" &&
-                              controller.homevalorAtualGasolina.text.isNotEmpty &&
-                              controller.homevalorAtualGasolina.text != "" &&
-                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
-                              controller.homedistanciaCorridaKm.text != "") {
-                            // controller.listenerHomeValorInformadoMotoby(p0);
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: p0,
-                                precoGasolina: controller.homevalorAtualGasolina.text,
-                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
-                          }
-                        });
-                      },
-                      inputFormatters: [
-                        controller.currencyFormatter,
-                        LengthLimitingTextInputFormatter(10),
-                      ],
-                      customTextController: controller.homevalorInformadoMotoboy,
-                      inputType: TextInputType.number,
-                      validator: Validatorless.required('campo obrigatório'),
-                    ),
-                  ),
 
-                  //------------------------------------------------------------------------------------------
+                  //VALOR ATUAL DA GASOLINA------------------------------------------------------------------------------------------
                   //
                   const Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
-                      "Valor atual do litro da gasolina?",
+                      "Qual o valor do combustível na sua região atualmente?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
@@ -391,17 +326,13 @@ class _HomeViewState extends State<HomeView> {
                     onFocusChange: (value) {
                       if (!value) {
                         setState(() {
-                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                              controller.homevalorInformadoMotoboy.text != "" &&
-                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
                               controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
                               controller.homedistanciaCorridaKm.text.isNotEmpty &&
                               controller.homedistanciaCorridaKm.text != "") {
-                            //controller.listenerHomeGasolina(controller.homevalorAtualGasolina.text);
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
-                                precoGasolina: controller.homevalorAtualGasolina.text,
-                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                            controller.calculaCustosCorrida();
                           }
                         });
                       }
@@ -416,16 +347,13 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       onSubmitted: (p0) {
                         setState(() {
-                          if (p0.isNotEmpty &&
-                              p0 != "" &&
-                              controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                              controller.homevalorInformadoMotoboy.text != "" &&
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
                               controller.homedistanciaCorridaKm.text.isNotEmpty &&
                               controller.homedistanciaCorridaKm.text != "") {
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
-                                precoGasolina: p0,
-                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                            controller.calculaCustosCorrida();
                           }
                         });
                       },
@@ -439,29 +367,26 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   //-------------------------------------------------------------------------
-
                   const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 5.0),
+                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
-                      "Distância da corrida em KM?",
+                      "Quantos KM seu veículo faz por litro de combustível?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
+
                   FocusScope(
                     onFocusChange: (value) {
                       if (!value) {
                         setState(() {
-                          if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                              controller.homevalorInformadoMotoboy.text != "" &&
-                              controller.homevalorAtualGasolina.text.isNotEmpty &&
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
                               controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
                               controller.homedistanciaCorridaKm.text.isNotEmpty &&
                               controller.homedistanciaCorridaKm.text != "") {
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
-                                precoGasolina: controller.homevalorAtualGasolina.text,
-                                distanciaCorridaKm: controller.homedistanciaCorridaKm.text);
+                            controller.calculaCustosCorrida();
                           }
                         });
                       }
@@ -476,27 +401,148 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       onSubmitted: (p0) {
                         setState(() {
-                          if (p0.isNotEmpty &&
-                              p0 != "" &&
-                              controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                              controller.homevalorInformadoMotoboy.text != "" &&
-                              controller.homevalorAtualGasolina.text.isNotEmpty &&
-                              controller.homevalorAtualGasolina.text != "") {
-                            controller.listenerHomeValoresCustos(
-                                precoCobradoMotoboy: controller.homevalorInformadoMotoboy.text,
-                                precoGasolina: controller.homevalorAtualGasolina.text,
-                                distanciaCorridaKm: p0);
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.calculaCustosCorrida();
                           }
                         });
                       },
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(10),
+                        controller.currencyFormatterKm,
+                        LengthLimitingTextInputFormatter(6),
                       ],
+                      customTextController: controller.homeqtdkmPorLitro,
+                      inputType: TextInputType.number,
+                      validator: Validatorless.required('campo obrigatório'),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 10.0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Distância da corrida",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            "(Não sabe a distancia?)",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(color: HexColor("#0D6EFD"), fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FocusScope(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        setState(() {
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.calculaCustosCorrida();
+                          }
+                        });
+                      }
+                    },
+                    child: CustomTextField(
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 13),
+                        child: Text(
+                          "Km",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      inputFormatters: [
+                        controller.currencyFormatterKm,
+                        LengthLimitingTextInputFormatter(6),
+                      ],
+                      onSubmitted: (p0) {
+                        setState(() {
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.calculaCustosCorrida();
+                          }
+                        });
+                      },
                       customTextController: controller.homedistanciaCorridaKm,
                       inputType: TextInputType.number,
                       validator: Validatorless.required('campo obrigatório'),
                     ),
                   ),
+                  //PERCENTUAL DE LUCRO------------------------------------------------------------------------------------------
+                  //
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
+                    child: Text(
+                      "Percentual de lucro",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  FocusScope(
+                    onFocusChange: (value) {
+                      if (!value) {
+                        setState(() {
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.calculaCustosCorrida();
+                          }
+                        });
+                      }
+                    },
+                    child: CustomTextField(
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 8.0, top: 13),
+                        child: Text(
+                          "%",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      onSubmitted: (p0) {
+                        setState(() {
+                          if (controller.homevalorAtualGasolina.text.isNotEmpty &&
+                              controller.homevalorAtualGasolina.text != "" &&
+                              controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                              controller.homeqtdkmPorLitro.text != "" &&
+                              controller.homedistanciaCorridaKm.text.isNotEmpty &&
+                              controller.homedistanciaCorridaKm.text != "") {
+                            controller.calculaCustosCorrida();
+                          }
+                        });
+                      },
+                      inputFormatters: [
+                        controller.currencyFormatterKm,
+                        LengthLimitingTextInputFormatter(6),
+                      ],
+                      customTextController: controller.homepercentualDeLucro,
+                      inputType: TextInputType.number,
+                      //validator: Validatorless.required('campo obrigatório'),
+                    ),
+                  ),
+                  //-------------------------------------------------------------------------
                   //-------------------------------------------------------
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10.0),
@@ -514,7 +560,7 @@ class _HomeViewState extends State<HomeView> {
                             width: 65,
                           ),
                           Text(
-                            "Lucro da corrida",
+                            "Valor sugerido",
                             textAlign: TextAlign.left,
                             style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                           ),
@@ -549,14 +595,14 @@ class _HomeViewState extends State<HomeView> {
                           child: Container(
                             //width: Get.size.width / 3,
                             decoration: BoxDecoration(
-                                color: controller.homelucroDacorridaController.text.contains("-")
+                                color: controller.homeValorSugeridoController.text.contains("-")
                                     ? Colors.red
                                     : HexColor("#0D6EFD"),
                                 borderRadius: const BorderRadius.all(Radius.circular(10))),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                "R\$ ${controller.homelucroDacorridaController.text}",
+                                "R\$ ${controller.homeValorSugeridoController.text} (R\$ ${controller.diferencaLucroValor})",
                                 style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
@@ -571,20 +617,19 @@ class _HomeViewState extends State<HomeView> {
                           child: Obx(() => CustomTextButton(
                               buttonFunction: controller.loading.value != true
                                   ? () async {
-                                      if (controller.homevalorInformadoMotoboy.text.isNotEmpty &&
-                                          controller.homevalorInformadoMotoboy.text != "" &&
-                                          controller.homevalorAtualGasolina.text.isNotEmpty &&
+                                      if (controller.homevalorAtualGasolina.text.isNotEmpty &&
                                           controller.homevalorAtualGasolina.text != "" &&
+                                          controller.homeqtdkmPorLitro.text.isNotEmpty &&
+                                          controller.homeqtdkmPorLitro.text != "" &&
                                           controller.homedistanciaCorridaKm.text.isNotEmpty &&
-                                          controller.homedistanciaCorridaKm.text != "" &&
-                                          controller.homelucroDacorridaController.text != "" &&
-                                          controller.homelucroDacorridaController.text.isNotEmpty) {
+                                          controller.homedistanciaCorridaKm.text != "") {
                                         FocusScope.of(context).requestFocus(FocusNode());
-                                        controller.gerarCorrida();
-                                        //setState(() {});
+                                        controller.calculaCustosCorrida();
+                                        setState(() {});
+                                        //controller.gerarCorrida();
                                       } else {
                                         FocusScope.of(context).requestFocus(FocusNode());
-                                        controller.homeCorridaGlobalKey.currentState!.validate();
+                                        controller.homeFormKey.currentState!.validate();
                                       }
                                     }
                                   : () {},
@@ -610,7 +655,7 @@ class _HomeViewState extends State<HomeView> {
                                       controller.imprimir.value = false;
                                       controller.loading.value = false;
                                       setState(() {
-                                        controller.limparCamposHome();
+                                        // controller.limparCamposHome();
                                       });
                                     });
                                   },
@@ -627,14 +672,14 @@ class _HomeViewState extends State<HomeView> {
                               child: CustomTextButton(
                                   buttonFunction: () {
                                     controller.imprimir.value = false;
-                                    controller.limparCamposHome();
+                                    //controller.limparCamposHome();
 
-                                    showDialog(
+                                    /*     showDialog(
                                       context: context,
                                       builder: (_) {
                                         return PrintDialog(corrida: cCorridas.listCorridas.last);
                                       },
-                                    );
+                                    ); */
                                   },
                                   controller: controller,
                                   widgetTitle: Text("Enviar comprovante",
@@ -646,33 +691,6 @@ class _HomeViewState extends State<HomeView> {
                             )
                           ],
                         ),
-                  /* Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: CustomTextButton(
-                        buttonFunction: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          controller.gerarComprovante();
-                        },
-                        controller: controller,
-                        widgetTitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text("Enviar comprovante",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: QTCsettings().textColorPrimaryDark,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400)),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.share,
-                                color: Colors.white,
-                              ),
-                            )
-                          ],
-                        )),
-                  ) */
                 ],
               ),
             ),

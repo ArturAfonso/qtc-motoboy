@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:qtc_motoboy/app/modules/corridas/views/components/corrida_tile.dart';
@@ -42,7 +42,7 @@ class _CorridasViewState extends State<CorridasView> {
               IconButton(
                   onPressed: () {
                     setState(() {
-                      controller.loadListCorridas();
+                     // controller.loadListCorridas();
                     });
                   },
                   icon: Icon(
@@ -68,5 +68,20 @@ class _CorridasViewState extends State<CorridasView> {
             },
           )),
     );
+  }
+}
+ */
+
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
+
+class CorridasView extends GetView<CorridasController> {
+  const CorridasView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
