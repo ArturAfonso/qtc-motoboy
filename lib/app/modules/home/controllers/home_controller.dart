@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   late User userLogado;
   //para preenchimento do historico de corridas
   GetStorage storage = GetStorage('storage');
+  final editFormKey = GlobalKey<FormState>();
   final homeFormKey = GlobalKey<FormState>();
   RxBool loading = false.obs;
   RxBool imprimir = false.obs;
@@ -20,6 +21,13 @@ class HomeController extends GetxController {
   final CurrencyTextInputFormatter currencyFormatterKm =
       CurrencyTextInputFormatter(locale: 'pt_BR', symbol: "", decimalDigits: 1);
   RxBool corridaConcluida = false.obs;
+
+//TextEditing controllers HOME
+  TextEditingController editvalorAtualGasolina = TextEditingController();
+  TextEditingController editdistanciaCorridaKm = TextEditingController();
+  TextEditingController editqtdkmPorLitro = TextEditingController();
+
+  TextEditingController editpercentualDeLucro = TextEditingController();
 
   //TextEditing controllers HOME
   TextEditingController homevalorAtualGasolina = TextEditingController();
@@ -67,6 +75,19 @@ class HomeController extends GetxController {
     }
   }
 
+  void preencherEditarInfo() {
+    setUserLogado();
+    if (userLogado.custos!.precoCombustivel != null) {
+      editvalorAtualGasolina.text = userLogado.custos!.precoCombustivel!;
+    }
+    if (userLogado.veiculo!.qtdkmPorLitro != null) {
+      editqtdkmPorLitro.text = userLogado.veiculo!.qtdkmPorLitro!;
+    }
+    if (userLogado.percentualLucro != null) {
+      editpercentualDeLucro.text = userLogado.percentualLucro!;
+    }
+  }
+
   void calculaCustosCorrida() {
     //(preçoGasolina * quantosKmPorLitroveiculoFAz) / distanciaDaCorrida
     double valorGasolina, qtdKmPorLitroVeicFaz, distanciaCorrida;
@@ -97,6 +118,17 @@ class HomeController extends GetxController {
           (acrescentarPorcentagem(double.parse(homecustosDaCorridaController.text), percentLucro)).toStringAsFixed(2);
       diferencaLucroValor = calculaDiferenca(
           double.parse(homecustosDaCorridaController.text), double.parse(homeValorSugeridoController.text));
+    }
+  }
+
+  void updateUserPreferences() {
+    if (editFormKey.currentState!.validate()) {
+      userLogado.percentualLucro = editpercentualDeLucro.text;
+      userLogado.custos!.precoCombustivel = editvalorAtualGasolina.text;
+      userLogado.veiculo!.qtdkmPorLitro = editqtdkmPorLitro.text;
+
+      storage.write('usuario', userLogado);
+      Get.offNamed(Routes.HOME);
     }
   }
 }

@@ -298,7 +298,7 @@ class _HomeViewState extends State<HomeView> {
 
         //====================================================================================================
         body: Form(
-          key: controller.homeFormKey,
+          key: controller.editFormKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -629,7 +629,7 @@ class _HomeViewState extends State<HomeView> {
                                         //controller.gerarCorrida();
                                       } else {
                                         FocusScope.of(context).requestFocus(FocusNode());
-                                        controller.homeFormKey.currentState!.validate();
+                                        controller.editFormKey.currentState!.validate();
                                       }
                                     }
                                   : () {},

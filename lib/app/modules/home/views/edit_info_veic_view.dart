@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
@@ -15,12 +16,12 @@ class EditInfoVeicView extends StatefulWidget {
 }
 
 class _EditInfoVeicViewState extends State<EditInfoVeicView> {
-  HomeController controller = Get.find();
+  HomeController controller = HomeController();
 
   @override
   void initState() {
     super.initState();
-    // controller.preencherEditarInfo();
+    controller.preencherEditarInfo();
   }
 
   @override
@@ -48,8 +49,9 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 30),
             child: Form(
-              // key: controller.editVeicGlobalKey,
+              key: controller.editFormKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(bottom: 10.0),
@@ -60,98 +62,85 @@ class _EditInfoVeicViewState extends State<EditInfoVeicView> {
                     ),
                   ),
                   CustomTextField(
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 13),
+                      child: Text(
+                        "Km",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
                     inputFormatters: [
-                      controller.currencyFormatter,
+                      controller.currencyFormatterKm,
+                      LengthLimitingTextInputFormatter(6),
                     ],
                     inputType: TextInputType.number,
-                    // customTextController: controller.editkmPorLitro,
-                    label: const Text(
-                      "KM",
-                    ),
+                    customTextController: controller.editqtdkmPorLitro,
                     validator: Validatorless.required('campo obrigatório'),
                   ),
+
+                  //VALOR ATUAL DA GASOLINA------------------------------------------------------------------------------------------
+                  //
                   const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
+                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
-                      "Qual o valor médio da revisão de seu veículo?",
+                      "Qual o valor do combustível na sua região atualmente?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
                   CustomTextField(
-                    onChanged: (p0) {
-                      //   debugPrint(controller.editvalorMedioRevisao.text.length.toString());
-                    },
-                    inputFormatters: [controller.currencyFormatter],
-                    // customTextController: controller.editvalorMedioRevisao,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 13),
+                      child: Text(
+                        "R\$",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
+                    onSubmitted: (p0) {},
+                    inputFormatters: [
+                      controller.currencyFormatter,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    customTextController: controller.editvalorAtualGasolina,
+                    inputType: TextInputType.number,
                     validator: Validatorless.required('campo obrigatório'),
                   ),
+
+//====================================================================================================
+
+                  //PERCENTUAL DE LUCRO------------------------------------------------------------------------------------------
+                  //
                   const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
+                    padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
-                      "Quantos KM em média você faz revisão?",
+                      "Percentual de lucro",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
                   CustomTextField(
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 13),
+                      child: Text(
+                        "%",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    onSubmitted: (p0) {},
                     inputFormatters: [
-                      controller.currencyFormatter,
+                      controller.currencyFormatterKm,
+                      LengthLimitingTextInputFormatter(6),
                     ],
-                    //  customTextController: controller.editkmRevisaoMedia,
+                    customTextController: controller.editpercentualDeLucro,
                     inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
-                    child: Text(
-                      "Qual o valor médio da troca de óleo de seu veículo?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter,
-                    ],
-                    // customTextController: controller.editvalorTrocaDeOleo,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "R\$",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 10.0),
-                    child: Text(
-                      "Com quantos KM você troca o óleo de seu veículo?",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  CustomTextField(
-                    inputFormatters: [
-                      controller.currencyFormatter,
-                    ],
-                    // customTextController: controller.editkmTrocaDeOleo,
-                    inputType: TextInputType.number,
-                    label: const Text(
-                      "KM",
-                    ),
-                    validator: Validatorless.required('campo obrigatório'),
-                  ),
+                  //-------------------------------------------------------------------------
+
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0),
                     child: CustomTextButton(
                         buttonFunction: () {
-                          //  controller.updateEditVeiCust();
+                          controller.updateUserPreferences();
                         },
                         controller: controller,
                         title: "Concluir"),
