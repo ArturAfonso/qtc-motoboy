@@ -317,7 +317,7 @@ class _HomeViewState extends State<HomeView> {
                   const Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10.0),
                     child: Text(
-                      "Qual o valor do combustível na sua região atualmente?",
+                      "Qual o valor do combustível na sua região?",
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
                     ),
@@ -545,7 +545,7 @@ class _HomeViewState extends State<HomeView> {
                   //-------------------------------------------------------------------------
                   //-------------------------------------------------------
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10.0),
+                    padding: const EdgeInsets.only(top: 10, bottom: 5.0),
                     child: SizedBox(
                       width: Get.size.width,
                       child: Row(
@@ -583,6 +583,8 @@ class _HomeViewState extends State<HomeView> {
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
                                 "R\$ ${controller.homecustosDaCorridaController.text}",
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
                                 style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
@@ -602,8 +604,11 @@ class _HomeViewState extends State<HomeView> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                "R\$ ${controller.homeValorSugeridoController.text} (R\$ ${controller.diferencaLucroValor})",
+                                "R\$ ${controller.homeValorSugeridoController.text} ",
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
                                 style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                                //(R\$ ${controller.diferencaLucroValor.toStringAsFixed(2)})
                               ),
                             ),
                           ),
@@ -611,9 +616,27 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
+
+                  Visibility(
+                    visible: controller.diferencaLucroValor != 0.0,
+                    replacement: const SizedBox(
+                      height: 25,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Center(
+                        child: Text(
+                          "Lucro: R\$ ${controller.diferencaLucroValor.toStringAsFixed(2)} ",
+                          maxLines: 1,
+                          style: const TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w400),
+                          //(R\$ ${controller.diferencaLucroValor.toStringAsFixed(2)})
+                        ),
+                      ),
+                    ),
+                  ),
                   controller.imprimir.value == false
                       ? Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
+                          padding: const EdgeInsets.only(top: 5.0),
                           child: Obx(() => CustomTextButton(
                               buttonFunction: controller.loading.value != true
                                   ? () async {
