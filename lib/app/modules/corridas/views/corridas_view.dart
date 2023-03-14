@@ -1,10 +1,10 @@
-/* import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:qtc_motoboy/app/modules/corridas/views/components/corrida_tile.dart';
 import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 
 import '../controllers/corridas_controller.dart';
+import 'components/corrida_tile.dart';
 
 class CorridasView extends StatefulWidget {
   const CorridasView({super.key});
@@ -14,10 +14,10 @@ class CorridasView extends StatefulWidget {
 }
 
 class _CorridasViewState extends State<CorridasView> {
-  CorridasController controller = Get.find();
+  CorridasController controller = CorridasController();
   @override
   Widget build(BuildContext context) {
-    controller.loadListCorridas;
+    controller.loadListCorridas();
     return RefreshIndicator(
       onRefresh: controller.reload,
       child: Scaffold(
@@ -42,7 +42,7 @@ class _CorridasViewState extends State<CorridasView> {
               IconButton(
                   onPressed: () {
                     setState(() {
-                     // controller.loadListCorridas();
+                      controller.loadListCorridas();
                     });
                   },
                   icon: Icon(
@@ -58,30 +58,18 @@ class _CorridasViewState extends State<CorridasView> {
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
                 physics: const BouncingScrollPhysics(),
-                separatorBuilder: (_, index) => const SizedBox(height: 10),
+                separatorBuilder: (_, index) => const SizedBox(height: 5),
                 itemBuilder: (_, index) {
                   final GlobalKey globalKey = GlobalKey();
                   return CorridaTile(chave: globalKey, corrida: controller.listCorridas[index]);
+                  /* return Container(
+                      color: Colors.amber,
+                    ); */
                 },
                 itemCount: controller.listCorridas.length,
               );
             },
           )),
     );
-  }
-}
- */
-
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:get/get.dart';
-import 'package:qtc_motoboy/app/modules/corridas/controllers/corridas_controller.dart';
-
-class CorridasView extends GetView<CorridasController> {
-  const CorridasView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

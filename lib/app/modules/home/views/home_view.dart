@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_button.dart';
 import 'package:qtc_motoboy/app/data/widgets/custom_text_field.dart';
@@ -137,6 +138,34 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const EraseDatabaseDialog();
+                                  });
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(Icons.dangerous_outlined),
+                                const SizedBox(
+                                  width: 30,
+                                ),
+                                Text(
+                                  "APAGAR SUA BASE DE DADOS",
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: QTCsettings().textColorPrimaryLight,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -204,12 +233,12 @@ class _HomeViewState extends State<HomeView> {
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: Obx(() => InkWell(
                                     onTap: () {
-                                      /* showDialog(
-                                                                  context: context,
-                                                                  builder: (_) {
-                                                                    return DonateDialog();
-                                                                  },
-                                                                ); */
+                                      /*   showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return DonateDialog();
+                                        },
+                                      ); */
                                       try {
                                         Clipboard.setData(const ClipboardData(text: "pix@w3start.com.br"));
                                         copied.value = true;
@@ -727,5 +756,96 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ));
+  }
+}
+
+class EraseDatabaseDialog extends StatelessWidget {
+  const EraseDatabaseDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    GetStorage storage = GetStorage('storage');
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Conteúdo
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Titulo
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'CUIDADO',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+
+                // Vencimento
+                const Text(
+                  'Você esta prestes a DELETAR todo seu historico de corridas e preferências, esta açao e irreversivel',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+
+                // Botão copia e cola
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    side: const BorderSide(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    storage.erase();
+                    Get.offAndToNamed(AppPages.INITIAL);
+                  },
+                  icon: const Icon(
+                    Icons.delete_forever,
+                    size: 25,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Deletar',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

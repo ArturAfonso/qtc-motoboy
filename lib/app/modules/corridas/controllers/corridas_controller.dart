@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -13,43 +12,43 @@ import 'package:qtc_motoboy/app/data/utility.dart';
 import 'package:qtc_motoboy/app/modules/home/controllers/home_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../data/models/corrida_model.dart';
+
 class CorridasController extends GetxController {
   HomeController cHome = Get.find();
-  //List<Corrida> listCorridas = <Corrida>[];
+  List<Corrida> listCorridas = <Corrida>[];
   GetStorage storage = GetStorage('storage');
 
   Future<void> reload() async {
-    // loadListCorridas();
+    loadListCorridas();
   }
 
-/*   loadListCorridas() {
+  loadListCorridas() {
     if (storage.read('corridas') == null) {
     } else {
       var mapacorridas = storage.read("corridas");
-      print(mapacorridas.runtimeType.toString());
-      if (mapacorridas.runtimeType.toString() == "List<Corrida>") {
+
+      if (mapacorridas.runtimeType == List<Corrida>) {
         if (listCorridas.isNotEmpty) {
           listCorridas.clear();
         }
         mapacorridas.forEach((element) {
-          print(element);
+          listCorridas.add(element);
         });
 
-        print(listCorridas);
-        print(listCorridas.length);
         update();
-      } else if (mapacorridas.runtimeType.toString() == "List<dynamic>") {
+      } else if (mapacorridas.runtimeType == List<dynamic>) {
         if (listCorridas.isNotEmpty) {
           listCorridas.clear();
         }
         mapacorridas.forEach((element) {
-         // listCorridas.add(Corrida.fromJson(element));
-          print(listCorridas.length);
+          listCorridas.add(Corrida.fromJson(element));
+
           update();
         });
       }
     }
-  } */
+  }
 
   String idGenerator() {
     final now = DateTime.now();
@@ -89,7 +88,19 @@ class CorridasController extends GetxController {
           // ignore: deprecated_member_use
           Share.shareFiles(['${directory.path}/comprovante_$time.png']);
         } else {
-          await ImageGallerySaver.saveFile('${directory.path}/comprovante_$time.png');
+          var teste = await ImageGallerySaver.saveFile('${directory.path}/comprovante_$time.png');
+          if (teste['isSuccess'] == true) {
+            Get.snackbar(
+              'Sucesso',
+              'Salvo na galeria',
+              colorText: Colors.white,
+              snackStyle: SnackStyle.FLOATING,
+              backgroundColor: Colors.green,
+            );
+          } else {
+            Get.snackbar('Erro', 'Falha ao salvar na galeria',
+                colorText: Colors.white, snackStyle: SnackStyle.FLOATING, backgroundColor: Colors.red);
+          }
         }
       }
     } catch (e) {
