@@ -2,6 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qtc_motoboy/app/data/models/corrida_model.dart';
 import 'package:qtc_motoboy/app/data/utility.dart';
 
 import '../../../data/models/user_model.dart';
@@ -9,6 +10,7 @@ import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
   late User userLogado;
+  List<Corrida> listCorrida = <Corrida>[];
   //para preenchimento do historico de corridas
   GetStorage storage = GetStorage('storage');
   final editFormKey = GlobalKey<FormState>();
@@ -48,6 +50,17 @@ class HomeController extends GetxController {
     return now.microsecondsSinceEpoch.toString();
   }
 
+  void clearFielsHome() {
+    homevalorAtualGasolina.clear();
+    homeqtdkmPorLitro.clear();
+    homepercentualDeLucro.clear();
+    homecustosDaCorridaController.clear();
+//
+    homeValorSugeridoController.clear();
+    homedistanciaCorridaKm.clear();
+    diferencaLucroValor = 0.0;
+  }
+
   void setUserLogado() {
     var verify = storage.read("usuario");
     if (verify == null) {
@@ -57,7 +70,24 @@ class HomeController extends GetxController {
         userLogado = verify;
       } else {
         userLogado = User.fromJson(verify);
+        loadListCorrida();
         Get.put(HomeController());
+      }
+    }
+  }
+
+  void loadListCorrida() {
+    var verify = storage.read("corridas");
+    if (verify != null) {
+      if (verify.runtimeType == List<Corrida>) {
+        listCorrida = verify;
+        debugPrint(listCorrida.length.toString());
+      } else if (verify.runtimeType == List<dynamic>) {
+        verify.forEach((element) {
+          Corrida cor = Corrida.fromJson(element);
+          listCorrida.add(cor);
+        });
+        debugPrint(listCorrida.length.toString());
       }
     }
   }
@@ -129,6 +159,25 @@ class HomeController extends GetxController {
 
       storage.write('usuario', userLogado);
       Get.offNamed(Routes.HOME);
+    }
+  }
+
+  void gerarCorrida() {
+    if (homeFormKey.currentState!.validate()) {
+      Corrida corrida = Corrida(
+          id: idGenerator(),
+          dataHora: DateTime.now().toString(),
+          percentualLucro: homepercentualDeLucro.text,
+          precoCombustivel: homevalorAtualGasolina.text,
+          qtdkmPorLitro: homeqtdkmPorLitro.text,
+          distanciaDaCorrida: homedistanciaCorridaKm.text,
+          valorCobrado: homeValorSugeridoController.text,
+          diferencaFinal: diferencaLucroValor.toString());
+
+      listCorrida.add(corrida);
+      storage.write("corridas", listCorrida);
+      imprimir.value = true;
+      clearFielsHome();
     }
   }
 }

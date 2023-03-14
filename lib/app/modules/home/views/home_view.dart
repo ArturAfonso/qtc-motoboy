@@ -10,6 +10,7 @@ import 'package:qtc_motoboy/app/settings/qtcmotoboy_settings.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../controllers/home_controller.dart';
+import 'print_dialog.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -298,7 +299,7 @@ class _HomeViewState extends State<HomeView> {
 
         //====================================================================================================
         body: Form(
-          key: controller.editFormKey,
+          key: controller.homeFormKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -544,76 +545,84 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   //-------------------------------------------------------------------------
                   //-------------------------------------------------------
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 5.0),
-                    child: SizedBox(
-                      width: Get.size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Custos da corrida",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          Text(
-                            "Valor sugerido",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                        ],
+                  Visibility(
+                    visible: controller.imprimir.value != true,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 5.0),
+                      child: SizedBox(
+                        width: Get.size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "Custos da corrida",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(
+                              width: 65,
+                            ),
+                            Text(
+                              "Valor sugerido",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: Get.size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            //width: Get.size.width / 2,
-                            decoration: BoxDecoration(
-                                color: QTCsettings().colorPrimaryLight,
-                                borderRadius: const BorderRadius.all(Radius.circular(10))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                "R\$ ${controller.homecustosDaCorridaController.text}",
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                  Visibility(
+                    visible: controller.imprimir.value != true,
+                    child: SizedBox(
+                      width: Get.size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              //width: Get.size.width / 2,
+                              decoration: BoxDecoration(
+                                  color: QTCsettings().colorPrimaryLight,
+                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "R\$ ${controller.homecustosDaCorridaController.text}",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style:
+                                      const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: Container(
-                            //width: Get.size.width / 3,
-                            decoration: BoxDecoration(
-                                color: controller.homeValorSugeridoController.text.contains("-")
-                                    ? Colors.red
-                                    : HexColor("#0D6EFD"),
-                                borderRadius: const BorderRadius.all(Radius.circular(10))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                "R\$ ${controller.homeValorSugeridoController.text} ",
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
-                                //(R\$ ${controller.diferencaLucroValor.toStringAsFixed(2)})
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              //width: Get.size.width / 3,
+                              decoration: BoxDecoration(
+                                  color: controller.homeValorSugeridoController.text.contains("-")
+                                      ? Colors.red
+                                      : HexColor("#0D6EFD"),
+                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "R\$ ${controller.homeValorSugeridoController.text} ",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style:
+                                      const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                                  //(R\$ ${controller.diferencaLucroValor.toStringAsFixed(2)})
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
@@ -649,10 +658,10 @@ class _HomeViewState extends State<HomeView> {
                                         FocusScope.of(context).requestFocus(FocusNode());
                                         controller.calculaCustosCorrida();
                                         setState(() {});
-                                        //controller.gerarCorrida();
+                                        controller.gerarCorrida();
                                       } else {
                                         FocusScope.of(context).requestFocus(FocusNode());
-                                        controller.editFormKey.currentState!.validate();
+                                        controller.homeFormKey.currentState!.validate();
                                       }
                                     }
                                   : () {},
@@ -677,9 +686,8 @@ class _HomeViewState extends State<HomeView> {
                                     setState(() {
                                       controller.imprimir.value = false;
                                       controller.loading.value = false;
-                                      setState(() {
-                                        // controller.limparCamposHome();
-                                      });
+
+                                      controller.preencheCamposHome();
                                     });
                                   },
                                   controller: controller,
@@ -697,12 +705,12 @@ class _HomeViewState extends State<HomeView> {
                                     controller.imprimir.value = false;
                                     //controller.limparCamposHome();
 
-                                    /*     showDialog(
+                                    showDialog(
                                       context: context,
                                       builder: (_) {
-                                        return PrintDialog(corrida: cCorridas.listCorridas.last);
+                                        return PrintDialog(corrida: controller.listCorrida.last);
                                       },
-                                    ); */
+                                    );
                                   },
                                   controller: controller,
                                   widgetTitle: Text("Enviar comprovante",
