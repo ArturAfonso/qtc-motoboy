@@ -218,7 +218,7 @@ class _PrintDialogState extends State<PrintDialog> {
                       label: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 15.0),
                         child: Text(
-                          'Compartilhar',
+                          'Enviar',
                           style: TextStyle(fontSize: 13),
                           maxLines: 1,
                         ),

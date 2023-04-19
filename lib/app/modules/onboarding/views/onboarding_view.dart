@@ -122,7 +122,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     icon: const Padding(
                       padding: EdgeInsets.only(left: 8.0, top: 13),
                       child: Text(
-                        "R\$",
+                        "Km",
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

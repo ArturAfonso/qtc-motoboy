@@ -51,25 +51,31 @@ class _CorridasViewState extends State<CorridasView> {
                   ))
             ],
           ),
-          body: GetBuilder<CorridasController>(
-            init: controller,
-            initState: (_) {},
-            builder: (_) {
-              return ListView.separated(
-                padding: const EdgeInsets.all(16),
-                physics: const BouncingScrollPhysics(),
-                separatorBuilder: (_, index) => const SizedBox(height: 5),
-                itemBuilder: (_, index) {
-                  final GlobalKey globalKey = GlobalKey();
-                  return CorridaTile(chave: globalKey, corrida: controller.listCorridas[index]);
-                  /* return Container(
+          // ignore: prefer_is_empty
+          body: controller.listCorridas.length > 0
+              ? GetBuilder<CorridasController>(
+                  init: controller,
+                  initState: (_) {},
+                  builder: (_) {
+                    return ListView.separated(
+                      padding: const EdgeInsets.all(16),
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (_, index) => const SizedBox(height: 5),
+                      itemBuilder: (_, index) {
+                        final GlobalKey globalKey = GlobalKey();
+                        return CorridaTile(chave: globalKey, corrida: controller.listCorridas[index]);
+                        /* return Container(
                       color: Colors.amber,
                     ); */
-                },
-                itemCount: controller.listCorridas.length,
-              );
-            },
-          )),
+                      },
+                      itemCount: controller.listCorridas.length,
+                    );
+                  },
+                )
+              : Container(
+                  color: Colors.white,
+                  height: Get.size.height,
+                )),
     );
   }
 }
